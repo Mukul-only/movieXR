@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-
+import SVG from "../../svg/SVG";
+import Arrow from "../../svg/Arrow";
 const SectionHeader = (props) => {
   return (
     <div
@@ -13,9 +14,25 @@ const SectionHeader = (props) => {
       </span>
 
       <Link to={props.back ? "/" : props.to}>
-        <p className="text-xs md:text-base text-gray-400 hover:text-white cursor-pointer duration-200">
-          {props.back ? "←  back" : "show more →"}
-        </p>
+        <div className="flex space-x-1 items-center text-xs md:text-base text-gray-400 hover:text-white cursor-pointer duration-200 group">
+          {props.back ? (
+            <>
+              <SVG
+                svg={Arrow}
+                className="w-4 h-4 md:w-5 md:h-5 fill-gray-400 group-hover:fill-white rotate-180"
+              />
+              <span>back</span>
+            </>
+          ) : (
+            <>
+              <span>show more</span>
+              <SVG
+                svg={Arrow}
+                className="w-4 h-4 md:w-5 md:h-5 fill-gray-400 group-hover:fill-white"
+              />
+            </>
+          )}
+        </div>
       </Link>
     </div>
   );
