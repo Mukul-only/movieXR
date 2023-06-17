@@ -42,7 +42,7 @@ const Carousel = (props) => {
         ref={wrapperRef}
       >
         <div
-          className=" flex space-x-4  rounded-xl scroll-smooth absolute top-0 bottom-0 duration-300"
+          className=" flex space-x-4 md:space-x-6  rounded-xl scroll-smooth absolute top-0 bottom-0 duration-300"
           ref={scrollref}
           style={{ left: pos }}
         >

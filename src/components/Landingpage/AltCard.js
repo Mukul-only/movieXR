@@ -3,7 +3,8 @@ import SVG from "../../svg/SVG";
 import Imdb from "../../svg/Imdb";
 import Star from "../../svg/Star";
 import Plus from "../../svg/Plus";
-const AltCard = ({ data }) => {
+import { twMerge } from "tailwind-merge";
+const AltCard = ({ data, className }) => {
   const [imageHasError, setImageHasError] = useState(false);
   const imageUrl = `https://image.tmdb.org/t/p/w500/${data?.poster_path}`;
   const rating = data?.vote_average;
@@ -15,13 +16,18 @@ const AltCard = ({ data }) => {
   const year = data?.release_date?.slice(0, 4);
   if (!imageHasError) {
     return (
-      <div className="relative rounded-lg min-w-max overflow-hidden group">
+      <div
+        className={twMerge(
+          "relative rounded-lg w-[158px] min-h-[250px] md:w-[204px] md:h-[290px]  overflow-hidden group select-none",
+          className
+        )}
+      >
         <img
           src={imageUrl}
           onError={() => {
             setImageHasError(true);
           }}
-          className="w-[158px] min-h-[182px] md:w-[204px] md:h-[290px] object-cover group-hover:scale-110 duration-300"
+          className="w-full h-full object-cover group-hover:scale-110 duration-300"
         />
         <div className="absolute inset-0 flex flex-col justify-between grad-card">
           <div className="flex justify-between gap-3 items-center p-2 md:px-4 md:py-3">

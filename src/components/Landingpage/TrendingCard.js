@@ -10,7 +10,7 @@ const TrendingCard = ({ data }) => {
   const year = data?.release_date?.slice(0, 4);
   if (!imageHasError) {
     return (
-      <div className="relative  rounded-xl  min-w-max overflow-hidden group">
+      <div className="relative  rounded-xl  min-w-max overflow-hidden group select-none">
         <img
           src={imageUrl}
           onError={() => {

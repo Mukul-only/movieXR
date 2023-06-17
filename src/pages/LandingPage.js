@@ -1,49 +1,71 @@
 import { json, defer, Await, useLoaderData } from "react-router-dom";
 import Card from "../UI/Card";
 import TrendingSection from "../components/Landingpage/TrendingSection";
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import SectionHeader from "../components/Landingpage/SectionHeader";
-
+import ErrorElement from "../UI/ErrorElement";
 import MovieSection from "../components/Landingpage/MovieSection";
+
+import TrendingSectionLoading from "../components/Loading/TrendingSectionLoading";
+import AltLoading from "../components/Loading/AltLoading";
 
 const LandingPage = (props) => {
   const { trendingMovie, topRatedMovie, upcomingMovie, popularMovie } =
     useLoaderData();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <Card className="mt-2 mb-16">
-      <SectionHeader title="Trending" className="py-6" />
-      <Suspense fallback={<p>Loading</p>}>
+      <SectionHeader title="Trending" className="py-6" to="now_playing" />
+      <Suspense fallback={<TrendingSectionLoading />}>
         <Await
           resolve={trendingMovie}
-          errorElement={<p>could not fetch data.</p>}
+          errorElement={
+            <ErrorElement error="Could not fetch data." className="my-12 " />
+          }
         >
           {(loadedMovies) => <TrendingSection data={loadedMovies?.results} />}
         </Await>
       </Suspense>
-      <SectionHeader title="Upcoming" className="py-6 mt-10" />
-      <Suspense fallback={<p>Loading</p>}>
+      <SectionHeader title="Upcoming" className="py-6 mt-10" to="upcoming" />
+      <Suspense fallback={<AltLoading />}>
         <Await
           resolve={upcomingMovie}
-          errorElement={<p>could not fetch data.</p>}
+          errorElement={
+            <ErrorElement error="Could not fetch data." className="my-12 " />
+          }
         >
           {(loadedMovies) => <MovieSection data={loadedMovies?.results} />}
         </Await>
       </Suspense>
-      <SectionHeader title="Popular" className="py-6 mt-2 md:mt-6" />
-      <Suspense fallback={<p>Loading</p>}>
+      <SectionHeader
+        title="Popular"
+        className="py-6 mt-2 md:mt-6"
+        to="popular"
+      />
+      <Suspense fallback={<AltLoading />}>
         <Await
           resolve={popularMovie}
-          errorElement={<p>could not fetch data.</p>}
+          errorElement={
+            <ErrorElement error="Could not fetch data." className="my-12 " />
+          }
         >
           {(loadedMovies) => <MovieSection data={loadedMovies?.results} />}
         </Await>
       </Suspense>
-      <SectionHeader title="Top Rated" className="py-6 mt-2 md:mt-6" />
-      <Suspense fallback={<p>Loading</p>}>
+      <SectionHeader
+        title="Top Rated"
+        className="py-6 mt-2 md:mt-6"
+        to="top_rated"
+      />
+      <Suspense fallback={<AltLoading />}>
         <Await
           resolve={topRatedMovie}
-          errorElement={<p>could not fetch data.</p>}
+          errorElement={
+            <ErrorElement error="Could not fetch data." className="my-12 " />
+          }
         >
           {(loadedMovies) => <MovieSection data={loadedMovies?.results} />}
         </Await>
@@ -53,8 +75,10 @@ const LandingPage = (props) => {
 };
 export default LandingPage;
 
-const dataFetcher = async (type) => {
-  const url = `https://api.themoviedb.org/3/movie/${type}?language=en-US&page=1&region=IN`;
+export const dataFetcher = async (type, page) => {
+  const url = `https://api.themoviedb.org/3/movie/${type}?language=en-US&page=${
+    page ? page : "1"
+  }&region=IN`;
   const options = {
     method: "GET",
     headers: {
@@ -64,7 +88,7 @@ const dataFetcher = async (type) => {
   };
   const response = await fetch(url, options);
   if (!response.ok) {
-    throw json({ message: "some error" }, { status: 500 });
+    throw new Response("could not fetch data.", { status: 400 });
   }
   const resData = await response.json();
   console.log(resData);
