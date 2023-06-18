@@ -9,7 +9,7 @@ const MoviePage = (props) => {
   const navigation = useNavigation();
   const page = searchParams.get("page");
   useEffect(() => {
-    setSearchParams({ page: 1 });
+    if (!page) setSearchParams({ page: 1 });
   }, []);
   useEffect(() => {
     window.scrollTo(0, 0);

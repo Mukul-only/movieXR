@@ -1,6 +1,9 @@
 import { useState } from "react";
 import SVG from "../../svg/SVG";
 import Imdb from "../../svg/Imdb";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { navigationAction } from "../../store/Navigation-slice";
 const TrendingCard = ({ data }) => {
   const [imageHasError, setImageHasError] = useState(false);
   const imageUrl = `https://image.tmdb.org/t/p/w500/${data?.backdrop_path}`;
@@ -8,9 +11,19 @@ const TrendingCard = ({ data }) => {
   const title =
     data?.title?.length > 40 ? data?.title?.slice(0, 40) + "..." : data?.title;
   const year = data?.release_date?.slice(0, 4);
+  const movieId = data?.id;
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const movieClickHandler = () => {
+    dispatch(navigationAction.setUrl("/"));
+    navigate(`/detail/${movieId}`);
+  };
   if (!imageHasError) {
     return (
-      <div className="relative  rounded-xl  min-w-max overflow-hidden group select-none">
+      <div
+        className="relative  rounded-xl  min-w-max overflow-hidden group select-none cursor-pointer"
+        onClick={movieClickHandler}
+      >
         <img
           src={imageUrl}
           onError={() => {

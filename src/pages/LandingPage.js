@@ -91,7 +91,7 @@ export const dataFetcher = async (type, page) => {
     throw new Response("could not fetch data.", { status: 400 });
   }
   const resData = await response.json();
-  console.log(resData);
+  // console.log(resData);
   return resData;
 };
 

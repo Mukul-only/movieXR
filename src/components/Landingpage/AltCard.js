@@ -1,11 +1,15 @@
 import { useState } from "react";
 import SVG from "../../svg/SVG";
-import Imdb from "../../svg/Imdb";
+
 import Star from "../../svg/Star";
 import Plus from "../../svg/Plus";
 import { twMerge } from "tailwind-merge";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { navigationAction } from "../../store/Navigation-slice";
 const AltCard = ({ data, className }) => {
   const [imageHasError, setImageHasError] = useState(false);
+  const [searchParams] = useSearchParams();
   const imageUrl = `https://image.tmdb.org/t/p/w500/${data?.poster_path}`;
   const rating = data?.vote_average;
   const maxChar = window.innerWidth < 768 ? 35 : 26;
@@ -14,13 +18,26 @@ const AltCard = ({ data, className }) => {
       ? data?.title?.slice(0, maxChar) + "..."
       : data?.title;
   const year = data?.release_date?.slice(0, 4);
+  const movieId = data?.id;
+  const navigate = useNavigate();
+  const location = useLocation();
+  const dispatch = useDispatch();
+  const page = searchParams.get("page");
+  const movieClickHandler = () => {
+    const url = location.pathname + (page ? `?page=${page}` : "");
+    dispatch(navigationAction.setUrl(url));
+
+    navigate(`/detail/${movieId}`);
+  };
+
   if (!imageHasError) {
     return (
       <div
         className={twMerge(
-          "relative rounded-lg w-[158px] min-h-[250px] md:w-[204px] md:h-[290px]  overflow-hidden group select-none",
+          "relative rounded-lg w-[158px] min-h-[250px] md:w-[204px] md:h-[290px]  overflow-hidden group select-none cursor-pointer",
           className
         )}
+        onClick={movieClickHandler}
       >
         <img
           src={imageUrl}

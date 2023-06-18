@@ -35,7 +35,8 @@ body {
   background-color: rgb(36, 36, 36);
   animation: breath 600ms alternate infinite;
 }
-.loading-card span {
+.loading-card span,
+.loading-text {
   background-image: linear-gradient(
     45deg,
     rgb(58, 58, 58) 40%,
@@ -46,6 +47,7 @@ body {
   background-size: 300%;
   animation: animate 1000ms linear infinite;
 }
+
 @keyframes animate {
   0% {
     background-position: left;
