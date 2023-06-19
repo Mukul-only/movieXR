@@ -14,6 +14,11 @@ module.exports = {
         primary: "#AD231B",
         White: "#F0F0F0",
         Gray: "#414141",
+        "transparent-black": "rgba(15, 15, 15, 0.53)  ",
+        "Dark-700": "#1E1E1E",
+        "Gray-500": "#575757",
+        "Gray-400": "#2F2E2E",
+        "primary-500": "#840700",
       },
       maxWidth: {
         "8xl": "86rem",

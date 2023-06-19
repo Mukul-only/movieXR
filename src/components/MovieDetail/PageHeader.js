@@ -3,11 +3,17 @@ import Arrow from "../../svg/Arrow";
 import Edit from "../../svg/Edit";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import Overlay from "../../UI/Overlay";
+import { useState } from "react";
 const PageHeader = (props) => {
+  const [show, setShow] = useState(false);
   const { url } = useSelector((state) => state.navigationSlice);
   const navigate = useNavigate();
   const backHandler = () => {
     navigate(url);
+  };
+  const showHandler = (e) => {
+    setShow(e);
   };
   return (
     <div className="flex justify-between items-center">
@@ -24,7 +30,11 @@ const PageHeader = (props) => {
       <SVG
         svg={Edit}
         className="w-4 h-4 md:w-5 md:h-5 fill-gray-400 hover:fill-white cursor-pointer"
+        onClick={() => {
+          showHandler(true);
+        }}
       />
+      <Overlay show={show} onClick={showHandler} />
     </div>
   );
 };

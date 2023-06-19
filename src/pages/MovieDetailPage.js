@@ -1,12 +1,22 @@
 import { Await, defer, useLoaderData } from "react-router-dom";
 import Card from "../UI/Card";
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import ErrorElement from "../UI/ErrorElement";
 import MovieDetail from "../components/MovieDetail/MovieDetail";
 import PageHeader from "../components/MovieDetail/PageHeader";
 import MovieDetailSkeleton from "../components/MovieDetail/MovieDetailSkeleton";
+import { useDispatch } from "react-redux";
+import { formDataAction } from "../store/formData-slice";
+import { formValidationAction } from "../store/formValidation-slice";
 const MovieDetailPage = (props) => {
+  const dispatch = useDispatch();
   const { movieDetail } = useLoaderData();
+  useEffect(() => {
+    return () => {
+      dispatch(formDataAction.reset());
+      dispatch(formValidationAction.reset());
+    };
+  }, []);
   return (
     <Card className="py-4">
       <PageHeader />

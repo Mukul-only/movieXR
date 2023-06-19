@@ -1,0 +1,100 @@
+import { CSSTransition } from "react-transition-group";
+import ReactDOM from "react-dom";
+import SVG from "../svg/SVG";
+import Cross from "../svg/Cross";
+import Form from "../components/EditMovie/Form";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { formDataAction } from "../store/formData-slice";
+import { formValidationAction } from "../store/formValidation-slice";
+const Modal = (props) => {
+  const dispatch = useDispatch();
+  const [form, setForm] = useState([
+    <Form index={0} key={0} onDelete={(ele) => deleteHandler(ele)} />,
+  ]);
+  const { formIsValid } = useSelector((state) => state.formValidation);
+  const linkAddHandler = () => {
+    setForm((prev) => [
+      ...prev,
+      <Form
+        index={prev.length}
+        key={prev.length}
+        onDelete={(ele) => deleteHandler(ele)}
+      />,
+    ]);
+    dispatch(formValidationAction.setTouched(false));
+  };
+
+  const deleteHandler = (ele) => {
+    dispatch(formDataAction.removeFormData(ele));
+    dispatch(formValidationAction.removeFeildValidity(ele));
+    dispatch(formDataAction.toogleFlag());
+    setForm((prev) => prev.filter((item, index) => index !== prev.length - 1));
+  };
+
+  const submitHandler = () => {
+    dispatch(formValidationAction.setTouched(true));
+    if (formIsValid) {
+      alert("submitted");
+      dispatch(formDataAction.reset());
+      dispatch(formValidationAction.reset());
+      props.onClick(false);
+    }
+  };
+
+  return (
+    <CSSTransition
+      in={props.show}
+      timeout={400}
+      unmountOnExit
+      mountOnEnter
+      classNames={{ enterActive: "enter", exitActive: "exit" }}
+    >
+      <div
+        className="absolute inset-0 flex items-center justify-center bg-transparent-black z-20"
+        onClick={() => props.onClick(false)}
+      >
+        <div
+          className="relative pb-16  rounded-xl bg-background border-2 border-Gray w-[92vw] h-[92vh] md:w-[86vw] md:h[86vh] xl:h-[70vh] xl:w-[60vw] modal overflow-y-auto"
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+        >
+          <span className="flex justify-between space-x-4 items-center sticky top-0 left-0 right-0 z-10 bg-background py-5 px-8 lg:px-16 border-b border-Dark-700">
+            <h1 className="text-xl md:text-2xl font-black  rounded-lg border-l-8 border-primary pl-4 md:pl-6 py-2">
+              Edit Movie
+            </h1>
+            <SVG
+              svg={Cross}
+              className="w-6 h-6 lg:w-8 lg:h-8 cursor-pointer fill-gray-400 hover:fill-white "
+              onClick={() => props.onClick(false)}
+            />
+          </span>
+          <div className="px-8 lg:pl-16 w-full lg:w-[60%]">
+            {form}
+            <p
+              className="select-none text-gray-400 hover:text-white text-sm font-semibold cursor-pointer py-4 w-max"
+              onClick={linkAddHandler}
+            >
+              + add more links
+            </p>
+          </div>
+          <button
+            className="block text-semibold px-10 py-2 rounded-full mx-auto my-6  bg-primary hover:bg-primary-500 duration-300"
+            onClick={submitHandler}
+          >
+            Submit
+          </button>
+        </div>
+      </div>
+    </CSSTransition>
+  );
+};
+const Overlay = (props) => {
+  const overlay = document.querySelector("#overlays");
+  return ReactDOM.createPortal(
+    <Modal show={props.show} onClick={props.onClick} />,
+    overlay
+  );
+};
+export default Overlay;

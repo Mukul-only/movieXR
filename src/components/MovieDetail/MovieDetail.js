@@ -1,3 +1,4 @@
+import Overlay from "../../UI/Overlay";
 import Globe from "../../svg/Globe";
 import Imdb from "../../svg/Imdb";
 import SVG from "../../svg/SVG";
