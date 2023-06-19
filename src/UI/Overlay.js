@@ -45,7 +45,7 @@ const Modal = (props) => {
   return (
     <CSSTransition
       in={props.show}
-      timeout={400}
+      timeout={500}
       unmountOnExit
       mountOnEnter
       classNames={{ enterActive: "enter", exitActive: "exit" }}
