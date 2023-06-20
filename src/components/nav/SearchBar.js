@@ -2,8 +2,10 @@ import { useNavigate } from "react-router-dom";
 import useInput from "../../hooks/use-input";
 import SVG from "../../svg/SVG";
 import Search from "../../svg/Search";
+import { useRef } from "react";
 
 const SearchBar = (props) => {
+  const inputRef = useRef();
   const {
     value: input,
     setInput,
@@ -19,6 +21,7 @@ const SearchBar = (props) => {
   const submitHandler = (e) => {
     if (e.key === "Enter" && isValid) {
       navigate(`/result?query=${input}&page=1`);
+      inputRef.current.blur();
       setInput("");
     }
   };
@@ -27,6 +30,7 @@ const SearchBar = (props) => {
       className={`flex-1 md:flex-none md:w-72 flex rounded-full items-center overflow-hidden  border bg-Dark-700 border-Dark-700 px-2 md:px-3   `}
     >
       <input
+        ref={inputRef}
         type="text"
         placeholder="Search your favorite moive"
         value={input}

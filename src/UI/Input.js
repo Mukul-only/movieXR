@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { formValidationAction } from "../store/formValidation-slice";
 import { formDataAction } from "../store/formData-slice";
 import FormError from "./FormError";
-const Input = ({ inputParams, className, id, name, validation }) => {
+const Input = ({ inputParams, className, id, name, validation, val }) => {
   const [result, setResult] = useState({});
   const {
     value: input,
@@ -20,6 +20,11 @@ const Input = ({ inputParams, className, id, name, validation }) => {
   const preVal = useSelector((state) => state.formData.formData[id]);
   const { retriveDataFlag } = useSelector((state) => state.formData);
   const { touched } = useSelector((state) => state.formValidation);
+
+  useEffect(() => {
+    if (val) setInput(val);
+  }, []);
+
   useEffect(() => {
     if (preVal) {
       setInput(preVal[name]);
@@ -49,19 +54,18 @@ const Input = ({ inputParams, className, id, name, validation }) => {
     setIsTouched(touched);
   }, [touched]);
   return (
-    <div>
+    <div className={className}>
       <input
         {...inputParams}
         value={input}
         onBlur={inputBlurHandler}
         onChange={inputChangeHandler}
         className={twMerge(
-          `block px-4 py-3 rounded-lg bg-Dark-700 outline-none placeholder:text-Gray-500 border text-sm lg:text-base  ${
+          `block px-4 py-3 rounded-lg bg-Dark-700 outline-none placeholder:text-Gray-500 border text-sm lg:text-base w-full  ${
             hasError
               ? "border-red-500"
               : "border-Dark-700 focus:border-Gray-500"
-          }`,
-          className
+          }`
         )}
       />
       {hasError && <FormError text={result?.msg} />}

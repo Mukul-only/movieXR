@@ -37,7 +37,8 @@ const AuthForm = (props) => {
         return;
       } else {
         localStorage.setItem("access", input);
-        props.close();
+        props.setFlag((prev) => !prev);
+        // props.close();
         setIsTouched(false);
         setInput("");
       }

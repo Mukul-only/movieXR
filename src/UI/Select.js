@@ -1,24 +1,17 @@
 import { useEffect, useState } from "react";
-import { twMerge } from "tailwind-merge";
 import SVG from "../svg/SVG";
 import Down from "../svg/Down";
 import { useDispatch, useSelector } from "react-redux";
 import { formDataAction } from "../store/formData-slice";
 import { formValidationAction } from "../store/formValidation-slice";
-
+import Trim from "../Utility/Trim";
 import FormError from "./FormError";
-const trim = (value, length) => {
-  if (value.length > length) {
-    return value.slice(0, length) + "...";
-  } else {
-    return value;
-  }
-};
-const Select = ({ id, name, className, options, placeholder }) => {
+
+const Select = ({ id, name, className, options, placeholder, val }) => {
   const defaultValue = placeholder
     ? window.innerWidth <= 367
-      ? trim(placeholder, 6)
-      : trim(placeholder, 20)
+      ? Trim(placeholder, 6)
+      : Trim(placeholder, 20)
     : "Select";
   const [touched, setTouched] = useState(false);
   const [value, setValue] = useState(defaultValue);
@@ -29,6 +22,9 @@ const Select = ({ id, name, className, options, placeholder }) => {
   const { touched: isTouched } = useSelector((state) => state.formValidation);
   const preVal = useSelector((state) => state.formData.formData[id]);
   const { retriveDataFlag } = useSelector((state) => state.formData);
+  useEffect(() => {
+    if (val) setValue(val);
+  }, []);
   useEffect(() => {
     if (preVal) {
       setValue(preVal[name]);

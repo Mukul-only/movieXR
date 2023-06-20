@@ -6,7 +6,7 @@ import SVG from "../../svg/SVG";
 import Delete from "../../svg/Delete";
 
 const Form = (props) => {
-  const sizeRegx = /[. 0-9]+(KB|MB|GB|kb|mb|gb)$/;
+  const sizeRegx = /^\d{1,3}(?:\.\d)?(?:KB|GB|MB|mb|kb|gb)$/;
   const urlValidation = (url) => {
     if (url.trim().length === 0) {
       return {
@@ -35,7 +35,7 @@ const Form = (props) => {
     } else if (!size.match(sizeRegx)) {
       return {
         valid: false,
-        msg: "Please enter a valid size (eg: 1.1gb)",
+        msg: "Invalid (valid-> eg : 'max 3 digits' . 'max 1 digit' 'unit')",
       };
     } else {
       return {
@@ -64,6 +64,7 @@ const Form = (props) => {
           placeholder="Resolution "
           id={props.index}
           name="resolution"
+          val={props?.data?.resolution}
         />
         <Select
           className="flex-1 w-0"
@@ -88,21 +89,34 @@ const Form = (props) => {
           placeholder="Release type"
           id={props.index}
           name="release_type"
+          val={props?.data?.release_type}
         />
       </div>
-      <Input
-        inputParams={{ type: "text", placeholder: "Size eg:- 1.3gb" }}
-        id={props.index}
-        name="size"
-        validation={(val) => sizeValidation(val)}
-        className="w-full"
-      />
+      <div className="flex space-x-2 ">
+        <Select
+          className="basis-1/2 md:basis-1/3"
+          options={["Hindi", "Hin-Eng", "Eng"]}
+          placeholder="Language"
+          id={props.index}
+          name="language"
+          val={props?.data?.language}
+        />
+        <Input
+          inputParams={{ type: "text", placeholder: "Size eg:- 1.3gb" }}
+          id={props.index}
+          name="size"
+          validation={(val) => sizeValidation(val)}
+          className="flex-1 w-0"
+          val={props?.data?.size}
+        />
+      </div>
       <Input
         inputParams={{ type: "url", placeholder: "Download link" }}
         id={props.index}
         name="download_link"
         validation={(val) => urlValidation(val)}
         className="w-full"
+        val={props?.data?.download_link}
       />
     </div>
   );

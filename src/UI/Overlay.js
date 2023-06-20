@@ -1,16 +1,16 @@
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import Form from "../components/EditMovie/Form";
+import readData from "../ApiCalls/readData";
+import { formValidationAction } from "../store/formValidation-slice";
+import { formDataAction } from "../store/formData-slice";
+import writeData from "../ApiCalls/writeData";
 import { CSSTransition } from "react-transition-group";
-import ReactDOM from "react-dom";
 import SVG from "../svg/SVG";
 import Cross from "../svg/Cross";
-import Form from "../components/EditMovie/Form";
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { formDataAction } from "../store/formData-slice";
-import { formValidationAction } from "../store/formValidation-slice";
-import writeData from "../ApiCalls/writeData";
-import { useParams } from "react-router-dom";
-import ErrorElement from "./ErrorElement";
 import AuthForm from "../auth/AuthForm";
+import ReactDOM from "react-dom";
 const Modal = (props) => {
   const dispatch = useDispatch();
   const [form, setForm] = useState([
@@ -20,9 +20,30 @@ const Modal = (props) => {
   const { formData } = useSelector((state) => state.formData);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
+  const [flag, setFlag] = useState(false);
   const params = useParams();
   const movieId = params.movieId;
   const access = localStorage.getItem("access") ? true : false;
+
+  useEffect(() => {
+    if (access) {
+      readData(`movies/${movieId}`).then((e) => {
+        if (e) {
+          setForm(
+            e.map((item, index) => (
+              <Form
+                data={item}
+                index={index}
+                key={index}
+                onDelete={(ele) => deleteHandler(ele)}
+              />
+            ))
+          );
+        }
+      });
+    }
+  }, [flag]);
+
   const linkAddHandler = () => {
     setForm((prev) => [
       ...prev,
@@ -102,7 +123,7 @@ const Modal = (props) => {
               </button>
             </>
           ) : (
-            <AuthForm close={() => props.onClick(false)} />
+            <AuthForm close={() => props.onClick(false)} setFlag={setFlag} />
           )}
         </div>
       </div>
