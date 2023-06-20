@@ -80,6 +80,7 @@ const Form = (props) => {
             "HDTV",
             "HDTVRip",
             "WebRip",
+            "WebDL",
             "TVRip",
             "HDRip",
             "BluRay",

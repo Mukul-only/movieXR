@@ -33,6 +33,11 @@ const FormValidationSlice = createSlice({
       state.feildsAreValid.forEach((item) =>
         item.id > action.payload ? item.id-- : item.id
       );
+      let newValidity = true;
+      state.feildsAreValid.forEach((element) => {
+        newValidity = newValidity && element.valid;
+      });
+      state.formIsValid = newValidity;
     },
 
     reset(state) {
