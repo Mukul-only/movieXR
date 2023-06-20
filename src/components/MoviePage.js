@@ -8,6 +8,7 @@ import ErrorElement from "../UI/ErrorElement";
 const MoviePage = (props) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigation = useNavigation();
+
   const page = searchParams.get("page");
   useEffect(() => {
     if (!page) setSearchParams({ page: 1 });
