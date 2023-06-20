@@ -24,7 +24,7 @@ const Modal = (props) => {
   const params = useParams();
   const movieId = params.movieId;
   const access = localStorage.getItem("access") ? true : false;
-
+  console.log("hello");
   useEffect(() => {
     if (access) {
       readData(`movies/${movieId}`).then((e) => {
