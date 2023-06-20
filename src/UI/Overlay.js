@@ -60,7 +60,7 @@ const Modal = (props) => {
       classNames={{ enterActive: "enter", exitActive: "exit" }}
     >
       <div
-        className="fixed inset-0 flex items-center justify-center bg-transparent-black z-20 py-10 px-4 md:py-12 md:px-24 xl:py-28 xl:px-52 "
+        className="fixed inset-0 flex items-center justify-center bg-transparent-black z-30 py-10 px-4 md:py-12 md:px-24 xl:py-28 xl:px-52 "
         onClick={() => props.onClick(false)}
       >
         <div
