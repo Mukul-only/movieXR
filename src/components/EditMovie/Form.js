@@ -6,7 +6,7 @@ import SVG from "../../svg/SVG";
 import Delete from "../../svg/Delete";
 
 const Form = (props) => {
-  const sizeRegx = /[. 0-9]+(KB|MB|GB|kb|mb|gb)/;
+  const sizeRegx = /[. 0-9]+(KB|MB|GB|kb|mb|gb)$/;
   const urlValidation = (url) => {
     if (url.trim().length === 0) {
       return {
