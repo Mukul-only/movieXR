@@ -7,12 +7,22 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { formDataAction } from "../store/formData-slice";
 import { formValidationAction } from "../store/formValidation-slice";
+import writeData from "../ApiCalls/writeData";
+import { useParams } from "react-router-dom";
+import ErrorElement from "./ErrorElement";
+import AuthForm from "../auth/AuthForm";
 const Modal = (props) => {
   const dispatch = useDispatch();
   const [form, setForm] = useState([
     <Form index={0} key={0} onDelete={(ele) => deleteHandler(ele)} />,
   ]);
   const { formIsValid } = useSelector((state) => state.formValidation);
+  const { formData } = useSelector((state) => state.formData);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState(null);
+  const params = useParams();
+  const movieId = params.movieId;
+  const access = localStorage.getItem("access") ? true : false;
   const linkAddHandler = () => {
     setForm((prev) => [
       ...prev,
@@ -35,10 +45,9 @@ const Modal = (props) => {
   const submitHandler = () => {
     dispatch(formValidationAction.setTouched(true));
     if (formIsValid) {
-      alert("submitted");
+      writeData(formData, setIsSubmitting, setError, movieId, props.onClick);
       dispatch(formDataAction.reset());
       dispatch(formValidationAction.reset());
-      props.onClick(false);
     }
   };
 
@@ -70,21 +79,31 @@ const Modal = (props) => {
               onClick={() => props.onClick(false)}
             />
           </span>
-          <div className="px-6 lg:pl-16 w-full lg:w-[60%]">
-            {form}
-            <p
-              className="select-none text-gray-400 hover:text-white text-sm font-semibold cursor-pointer py-4 w-max"
-              onClick={linkAddHandler}
-            >
-              + add more links
-            </p>
-          </div>
-          <button
-            className="block text-semibold px-10 py-2 rounded-full mx-auto my-6  bg-primary hover:bg-primary-500 duration-300"
-            onClick={submitHandler}
-          >
-            Submit
-          </button>
+          {access ? (
+            <>
+              <div className="px-6 lg:pl-16 w-full lg:w-[60%]">
+                {form}
+                <p
+                  className="select-none text-gray-400 hover:text-white text-sm font-semibold cursor-pointer py-4 w-max"
+                  onClick={linkAddHandler}
+                >
+                  + add more links
+                </p>
+              </div>
+
+              <button
+                className={`block text-semibold px-10 py-2 rounded-full mx-auto my-6  bg-primary hover:bg-primary-500 duration-300 ${
+                  isSubmitting ? "cursor-not-allowed" : "cursor-pointer"
+                }`}
+                onClick={submitHandler}
+                disabled={isSubmitting ? true : false}
+              >
+                {isSubmitting ? "Submitting..." : "Submit"}
+              </button>
+            </>
+          ) : (
+            <AuthForm close={() => props.onClick(false)} />
+          )}
         </div>
       </div>
     </CSSTransition>

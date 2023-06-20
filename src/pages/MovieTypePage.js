@@ -1,7 +1,13 @@
 import Card from "../UI/Card";
 import SectionHeader from "../components/Landingpage/SectionHeader";
 import { dataFetcher } from "./LandingPage";
-import { defer, Await, useLoaderData, useParams } from "react-router-dom";
+import {
+  defer,
+  Await,
+  useLoaderData,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 
 import { Suspense, useEffect, useState } from "react";
 import MoviePage from "../components/MoviePage";
@@ -33,7 +39,8 @@ const MovieTypePage = (props) => {
   const { movieData } = useLoaderData();
   const { type } = useParams();
   const [title, setTitle] = useState("");
-
+  const [searchParams] = useSearchParams();
+  const query = searchParams.get("query");
   useEffect(() => {
     let title = "";
     for (let i = 0; i < type.length; i++) {
@@ -48,8 +55,9 @@ const MovieTypePage = (props) => {
       title += type[i];
     }
     title = type === "now_playing" ? "Trending" : title;
+    title = type === "result" ? query : title;
     setTitle(title);
-  }, []);
+  }, [query]);
 
   const errorHandler = () => {
     setError(true);
@@ -63,7 +71,7 @@ const MovieTypePage = (props) => {
   }, [error]);
 
   return (
-    <Card className="py-4 space-y-6">
+    <Card className="py-4 ">
       <SectionHeader title={title} back />
 
       <Suspense fallback={<div className="grid-movie"></div>}>
@@ -87,9 +95,10 @@ export default MovieTypePage;
 export const loader = async ({ request, params }) => {
   const searchParams = new URL(request.url).searchParams;
   const page = searchParams.get("page");
+  const query = searchParams.get("query");
   const type = params.type;
 
   return defer({
-    movieData: dataFetcher(type, page),
+    movieData: dataFetcher(type, page, query),
   });
 };

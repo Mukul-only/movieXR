@@ -17,7 +17,7 @@ const trim = (value, length) => {
 const Select = ({ id, name, className, options, placeholder }) => {
   const defaultValue = placeholder
     ? window.innerWidth <= 367
-      ? trim(placeholder, 8)
+      ? trim(placeholder, 6)
       : trim(placeholder, 20)
     : "Select";
   const [touched, setTouched] = useState(false);

@@ -75,10 +75,15 @@ const LandingPage = (props) => {
 };
 export default LandingPage;
 
-export const dataFetcher = async (type, page) => {
-  const url = `https://api.themoviedb.org/3/movie/${type}?language=en-US&page=${
-    page ? page : "1"
-  }&region=IN`;
+export const dataFetcher = async (type, page, query) => {
+  let url = "";
+  if (query) {
+    url = `https://api.themoviedb.org/3/search/movie?query=${query}&include_adult=false&language=en-US&page=${page}`;
+  } else {
+    url = `https://api.themoviedb.org/3/movie/${type}?language=en-US&page=${
+      page ? page : "1"
+    }&region=IN`;
+  }
   const options = {
     method: "GET",
     headers: {

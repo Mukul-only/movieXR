@@ -11,7 +11,7 @@ const AltCard = ({ data, className }) => {
   const [imageHasError, setImageHasError] = useState(false);
   const [searchParams] = useSearchParams();
   const imageUrl = `https://image.tmdb.org/t/p/w500/${data?.poster_path}`;
-  const rating = data?.vote_average;
+  const rating = data?.vote_average.toFixed(1);
   const maxChar = window.innerWidth < 768 ? 35 : 26;
   const title =
     data?.title?.length > maxChar
@@ -23,8 +23,12 @@ const AltCard = ({ data, className }) => {
   const location = useLocation();
   const dispatch = useDispatch();
   const page = searchParams.get("page");
+  const query = searchParams.get("query");
   const movieClickHandler = () => {
-    const url = location.pathname + (page ? `?page=${page}` : "");
+    const url =
+      location.pathname +
+      (page ? `?page=${page}` : "") +
+      (query ? `&query=${query}` : "");
     dispatch(navigationAction.setUrl(url));
 
     navigate(`/detail/${movieId}`);
@@ -34,7 +38,7 @@ const AltCard = ({ data, className }) => {
     return (
       <div
         className={twMerge(
-          "relative rounded-lg w-[158px] min-h-[250px] md:w-[204px] md:h-[290px]  overflow-hidden group select-none cursor-pointer",
+          "relative rounded-lg w-[158px] min-h-[250px] md:w-[204px] md:h-[290px]  overflow-hidden group select-none cursor-pointer bg-Dark-700",
           className
         )}
         onClick={movieClickHandler}

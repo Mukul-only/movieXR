@@ -1,4 +1,4 @@
-import { Await, defer, useLoaderData } from "react-router-dom";
+import { Await, defer, useLoaderData, useParams } from "react-router-dom";
 import Card from "../UI/Card";
 import { Suspense, useEffect } from "react";
 import ErrorElement from "../UI/ErrorElement";
@@ -8,9 +8,12 @@ import MovieDetailSkeleton from "../components/MovieDetail/MovieDetailSkeleton";
 import { useDispatch } from "react-redux";
 import { formDataAction } from "../store/formData-slice";
 import { formValidationAction } from "../store/formValidation-slice";
+import readData from "../ApiCalls/readData";
 const MovieDetailPage = (props) => {
   const dispatch = useDispatch();
-  const { movieDetail } = useLoaderData();
+  const params = useParams();
+  const { movieDetail, downloadDetail } = useLoaderData();
+
   useEffect(() => {
     return () => {
       dispatch(formDataAction.reset());
@@ -31,7 +34,9 @@ const MovieDetailPage = (props) => {
             />
           }
         >
-          {(loadedDetails) => <MovieDetail data={loadedDetails} />}
+          {(loadedDetails) => (
+            <MovieDetail data={loadedDetails} downloadDetail={downloadDetail} />
+          )}
         </Await>
       </Suspense>
     </Card>
@@ -61,5 +66,6 @@ export const loader = async ({ params }) => {
   const id = params.movieId;
   return defer({
     movieDetail: movieDetailLoader(id),
+    downloadDetail: readData(`movies/${id}`),
   });
 };

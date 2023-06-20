@@ -1,8 +1,10 @@
-import Overlay from "../../UI/Overlay";
 import Globe from "../../svg/Globe";
 import Imdb from "../../svg/Imdb";
 import SVG from "../../svg/SVG";
 import Genres from "./Genres";
+import { useState } from "react";
+import DownloadSection from "./DownloadSection";
+import { useEffect } from "react";
 
 const transformVote = (num) => {
   if (num >= 1000 && num < 1000000) {
@@ -18,7 +20,7 @@ const transformRuntime = (num) => {
   return `${Math.trunc(num / 60)}h  ${num % 60}m`;
 };
 
-const MovieDetail = ({ data }) => {
+const MovieDetail = ({ data, downloadDetail }) => {
   const imageUrl = `https://image.tmdb.org/t/p/w500/${data?.poster_path}`;
   const title = data?.title;
   const genres = data?.genres;
@@ -28,6 +30,16 @@ const MovieDetail = ({ data }) => {
   const runtime = transformRuntime(data?.runtime);
   const spokenLanguage = data?.spoken_languages;
   const overview = data?.overview;
+
+  const [link, setLink] = useState();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  downloadDetail.then((e) => {
+    setLink(e);
+  });
+
   return (
     <div>
       <div className="flex flex-col lg:flex-row gap-12 py-12 border-b border-Gray">
@@ -72,6 +84,24 @@ const MovieDetail = ({ data }) => {
             {overview}
           </p>
         </div>
+      </div>
+      <div className="flex flex-col items-center py-6">
+        <h1 className="text-lg mx-auto md:text-2xl tracking-wider font-black  rounded-lg border-l-8 border-primary pl-6 md:pl-8 py-2">
+          Download Links
+        </h1>
+
+        {link === undefined && (
+          <span className="loading-text w-52 md:w-64 h-12 rounded-lg mt-6" />
+        )}
+        {link ? (
+          <DownloadSection data={link} />
+        ) : (
+          link === null && (
+            <p className="text-sm font-semibold text-Gray-500 mt-6 text-center">
+              Download links will be available shortly.
+            </p>
+          )
+        )}
       </div>
     </div>
   );

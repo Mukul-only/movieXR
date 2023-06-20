@@ -7,7 +7,7 @@ const SectionHeader = (props) => {
       className={`flex justify-between items-center space-x-8 select-none ${props.className}`}
     >
       <span className="flex space-x-4 items-center">
-        <h1 className="text-xl md:text-3xl font-black text-White">
+        <h1 className="text-xl md:text-3xl font-black text-White overflow-hidden max-w-[6rem] xsl:max-w-[12rem] md:max-w-[26rem] whitespace-nowrap">
           {props.title}
         </h1>
         <span className="block w-10 h-2 rounded-full bg-primary" />

@@ -16,7 +16,7 @@ const Form = (props) => {
     } else if (!url.match(urlRegx)) {
       return {
         valid: false,
-        msg: "Please enter a valid url (eg : https://www.example.com/)",
+        msg: "Please enter a valid url (https:// is must eg: https://google.com)",
       };
     } else {
       return {

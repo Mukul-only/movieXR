@@ -5,7 +5,7 @@ const ErrorElement = (props) => {
   return (
     <div
       className={twMerge(
-        "flex  space-x-3 items-center border-2 rounded-lg text-black border-red-600 bg-red-300 text-sm md:text-base px-6 py-2 font-bold  w-max " +
+        "flex  space-x-3 items-center text-gray-300 rounded-lg text-sm md:text-base px-6 py-2 font-bold  w-max " +
           props.className
       )}
     >
