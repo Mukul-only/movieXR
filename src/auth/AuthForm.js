@@ -2,6 +2,8 @@ import readData from "../ApiCalls/readData";
 import useInput from "../hooks/use-input";
 import FormError from "../UI/FormError";
 import { useEffect, useState } from "react";
+import decryptData from "./decryptData";
+import encryptData from "./ecryptData";
 const AuthForm = (props) => {
   const [error, setError] = useState("");
   const [match, setMatch] = useState(false);
@@ -29,14 +31,15 @@ const AuthForm = (props) => {
     const authkey = await readData(`auth/key`);
     setIsAuthenticating(false);
     if (authkey) {
-      if (input !== authkey) {
+      const decryptedKey = decryptData(authkey);
+      if (input !== decryptedKey) {
         setMatch(false);
 
         setSubmitted(true);
         setError("Invalid access key !");
         return;
       } else {
-        localStorage.setItem("access", input);
+        localStorage.setItem("access", authkey);
         props.setFlag((prev) => !prev);
         // props.close();
         setIsTouched(false);
@@ -46,6 +49,10 @@ const AuthForm = (props) => {
       setError("AuthKey not found !");
     }
   };
+
+  // const encryptHandler = () => {
+  //   console.log(encryptData(input));
+  // };
   return (
     <div className="flex flex-col py-12  space-y-4 px-4 lg:px-24 ">
       <span>
@@ -78,6 +85,12 @@ const AuthForm = (props) => {
       >
         {authenticating ? "Authenticating..." : "Submit"}
       </button>
+      {/* <button
+        className={`block text-semibold px-10 py-2 rounded-full mx-auto my-6  bg-primary hover:bg-primary-500 duration-300`}
+        onClick={encryptHandler}
+      >
+        Encrypt
+      </button> */}
     </div>
   );
 };

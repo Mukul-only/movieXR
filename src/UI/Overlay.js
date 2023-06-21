@@ -11,6 +11,13 @@ import SVG from "../svg/SVG";
 import Cross from "../svg/Cross";
 import AuthForm from "../auth/AuthForm";
 import ReactDOM from "react-dom";
+import decryptData from "../auth/decryptData";
+const authenticator = (text) => {
+  const decryptedData = decryptData(text);
+  if (decryptedData === "{f4OY0-6Fq$B'lP2SHs6V8Q_") {
+    return true;
+  } else return false;
+};
 const Modal = (props) => {
   const dispatch = useDispatch();
   const [form, setForm] = useState([
@@ -23,7 +30,8 @@ const Modal = (props) => {
   const [flag, setFlag] = useState(false);
   const params = useParams();
   const movieId = params.movieId;
-  const access = localStorage.getItem("access") ? true : false;
+  const accessKey = localStorage.getItem("access");
+  const access = accessKey ? authenticator(accessKey) : false;
 
   useEffect(() => {
     if (access) {
