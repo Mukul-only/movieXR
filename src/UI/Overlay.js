@@ -20,9 +20,7 @@ const authenticator = (text) => {
 };
 const Modal = (props) => {
   const dispatch = useDispatch();
-  const [form, setForm] = useState([
-    <Form index={0} key={0} onDelete={(ele) => deleteHandler(ele)} />,
-  ]);
+  const [form, setForm] = useState([]);
   const { formIsValid } = useSelector((state) => state.formValidation);
   const { formData } = useSelector((state) => state.formData);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -47,6 +45,10 @@ const Modal = (props) => {
               />
             ))
           );
+        } else {
+          setForm([
+            <Form index={0} key={0} onDelete={(ele) => deleteHandler(ele)} />,
+          ]);
         }
       });
     }
