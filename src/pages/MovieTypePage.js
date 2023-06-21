@@ -74,7 +74,13 @@ const MovieTypePage = (props) => {
     <Card className="py-4 ">
       <SectionHeader title={title} back />
 
-      <Suspense fallback={<div className="grid-movie"></div>}>
+      <Suspense
+        fallback={
+          <div className="grid-movie mt-10">
+            <Skeleton />
+          </div>
+        }
+      >
         <Await
           resolve={movieData}
           errorElement={

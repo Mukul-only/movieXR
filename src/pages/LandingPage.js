@@ -1,4 +1,4 @@
-import { json, defer, Await, useLoaderData } from "react-router-dom";
+import { defer, Await, useLoaderData } from "react-router-dom";
 import Card from "../UI/Card";
 import TrendingSection from "../components/Landingpage/TrendingSection";
 import { Suspense, useEffect } from "react";
