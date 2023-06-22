@@ -71,6 +71,7 @@ const Form = (props) => {
           options={[
             "CAM-Rip",
             "HDCAM",
+            "S-Print",
             "HDTS",
             "PreDVDRip",
             "HDTC",
