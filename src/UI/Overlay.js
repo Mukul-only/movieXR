@@ -142,7 +142,9 @@ const Modal = (props) => {
 
               <button
                 className={`block text-semibold px-10 py-2 rounded-full mx-auto my-6  bg-primary hover:bg-primary-500 duration-300 ${
-                  isSubmitting ? "cursor-not-allowed" : "cursor-pointer"
+                  isSubmitting || isShorting
+                    ? "cursor-not-allowed"
+                    : "cursor-pointer"
                 }`}
                 onClick={submitHandler}
                 disabled={isSubmitting || isShorting ? true : false}
