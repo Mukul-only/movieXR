@@ -12,6 +12,8 @@ import Cross from "../svg/Cross";
 import AuthForm from "../auth/AuthForm";
 import ReactDOM from "react-dom";
 import decryptData from "../auth/decryptData";
+
+import shortLink from "../shortLinks/shortLink";
 const authenticator = (text) => {
   const decryptedData = decryptData(text);
   if (decryptedData === "{f4OY0-6Fq$B'lP2SHs6V8Q_") {
@@ -24,6 +26,8 @@ const Modal = (props) => {
   const { formIsValid } = useSelector((state) => state.formValidation);
   const { formData } = useSelector((state) => state.formData);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isShorting, setIsShorting] = useState(false);
+  const [submit, setSubmit] = useState(false);
   const [error, setError] = useState(null);
   const [flag, setFlag] = useState(false);
   const params = useParams();
@@ -73,12 +77,26 @@ const Modal = (props) => {
     setForm((prev) => prev.filter((item, index) => index !== prev.length - 1));
   };
 
-  const submitHandler = () => {
-    dispatch(formValidationAction.setTouched(true));
-    if (formIsValid) {
+  useEffect(() => {
+    // console.log(submit);
+    if (submit) {
       writeData(formData, setIsSubmitting, setError, movieId, props.onClick);
       dispatch(formDataAction.reset());
       dispatch(formValidationAction.reset());
+      setSubmit(false);
+    }
+  }, [submit]);
+
+  const submitHandler = () => {
+    dispatch(formValidationAction.setTouched(true));
+    if (formIsValid) {
+      const downloadLinks = formData.map((item) => item?.download_link);
+      setIsShorting(true);
+      shortLink(downloadLinks).then((shortedLinks) => {
+        dispatch(formDataAction.updateFormLinks(shortedLinks));
+        setIsShorting(false);
+        setSubmit(true);
+      });
     }
   };
 
@@ -127,9 +145,13 @@ const Modal = (props) => {
                   isSubmitting ? "cursor-not-allowed" : "cursor-pointer"
                 }`}
                 onClick={submitHandler}
-                disabled={isSubmitting ? true : false}
+                disabled={isSubmitting || isShorting ? true : false}
               >
-                {isSubmitting ? "Submitting..." : "Submit"}
+                {isSubmitting || isShorting
+                  ? isShorting
+                    ? "Shorting Urls..."
+                    : "Saving..."
+                  : "Save"}
               </button>
             </>
           ) : (
