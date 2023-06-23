@@ -10,8 +10,14 @@ import TrendingSectionLoading from "../components/Loading/TrendingSectionLoading
 import AltLoading from "../components/Loading/AltLoading";
 
 const LandingPage = (props) => {
-  const { trendingMovie, topRatedMovie, upcomingMovie, popularMovie } =
-    useLoaderData();
+  const {
+    trendingMovie,
+    topRatedMovie,
+    upcomingMovie,
+    popularMovie,
+    bollywoodMovie,
+    hollywoodMovie,
+  } = useLoaderData();
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -56,6 +62,36 @@ const LandingPage = (props) => {
         </Await>
       </Suspense>
       <SectionHeader
+        title="Bollywood"
+        className="py-6 mt-2 md:mt-6"
+        to="bollywood"
+      />
+      <Suspense fallback={<AltLoading />}>
+        <Await
+          resolve={bollywoodMovie}
+          errorElement={
+            <ErrorElement error="Could not fetch data." className="my-12 " />
+          }
+        >
+          {(loadedMovies) => <MovieSection data={loadedMovies?.results} />}
+        </Await>
+      </Suspense>
+      <SectionHeader
+        title="Hollywood"
+        className="py-6 mt-2 md:mt-6"
+        to="hollywood"
+      />
+      <Suspense fallback={<AltLoading />}>
+        <Await
+          resolve={hollywoodMovie}
+          errorElement={
+            <ErrorElement error="Could not fetch data." className="my-12 " />
+          }
+        >
+          {(loadedMovies) => <MovieSection data={loadedMovies?.results} />}
+        </Await>
+      </Suspense>
+      <SectionHeader
         title="Top Rated"
         className="py-6 mt-2 md:mt-6"
         to="top_rated"
@@ -80,9 +116,17 @@ export const dataFetcher = async (type, page, query) => {
   if (query) {
     url = `https://api.themoviedb.org/3/search/movie?query=${query}&include_adult=false&language=en-US&page=${page}`;
   } else {
-    url = `https://api.themoviedb.org/3/movie/${type}?language=en-US&page=${
-      page ? page : "1"
-    }&region=IN`;
+    if (type === "bollywood" || type === "hollywood") {
+      url = `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${
+        page ? page : "1"
+      }&primary_release_year=2023&release_date.gte=2023-01-01&sort_by=popularity.desc&with_original_language=${
+        type === "bollywood" ? "hi" : "en"
+      }`;
+    } else {
+      url = `https://api.themoviedb.org/3/movie/${type}?language=en-US&page=${
+        page ? page : "1"
+      }&region=IN`;
+    }
   }
   const options = {
     method: "GET",
@@ -106,5 +150,7 @@ export const loader = async () => {
     upcomingMovie: dataFetcher("upcoming"),
     topRatedMovie: dataFetcher("top_rated"),
     popularMovie: dataFetcher("popular"),
+    hollywoodMovie: dataFetcher("hollywood"),
+    bollywoodMovie: dataFetcher("bollywood"),
   });
 };
