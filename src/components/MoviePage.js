@@ -21,7 +21,7 @@ const MoviePage = (props) => {
   return (
     <>
       <p className="text-xs md:text-sm text-gray-400 mt-1">
-        results : {totalResults}{" "}
+        results : {totalResults}
       </p>
       {totalResults > 0 ? (
         <>

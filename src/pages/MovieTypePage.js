@@ -76,7 +76,7 @@ const MovieTypePage = (props) => {
 
       <Suspense
         fallback={
-          <div className="grid-movie mt-10">
+          <div className="grid-movie mt-24">
             <Skeleton />
           </div>
         }

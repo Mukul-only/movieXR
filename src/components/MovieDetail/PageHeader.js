@@ -3,16 +3,19 @@ import Arrow from "../../svg/Arrow";
 import Edit from "../../svg/Edit";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import Overlay from "../../UI/Overlay";
-import { useState } from "react";
+// import Overlay from "../../UI/Overlay";
+import { Suspense, useState } from "react";
+import { lazy } from "react";
+const Overlay = lazy(() => import("../../UI/Overlay"));
 const PageHeader = (props) => {
   const [show, setShow] = useState(false);
   const { url } = useSelector((state) => state.navigationSlice);
   const navigate = useNavigate();
+
   const backHandler = () => {
     navigate(url);
   };
-  const showHandler = (e) => {
+  const showHandler = async (e) => {
     setShow(e);
   };
   return (
@@ -34,7 +37,10 @@ const PageHeader = (props) => {
           showHandler(true);
         }}
       />
-      <Overlay show={show} onClick={showHandler} />
+
+      <Suspense fallback={<></>}>
+        <Overlay show={show} onClick={showHandler} />
+      </Suspense>
     </div>
   );
 };

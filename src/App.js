@@ -4,10 +4,12 @@ import LandingPage, { loader as movieLoader } from "./pages/LandingPage";
 import { Skeleton } from "./pages/MovieTypePage";
 import Card from "./UI/Card";
 import MovieTypePage, { loader as typeLoader } from "./pages/MovieTypePage";
-// import MovieDetailPage, { loader as movieDetailLoader,} from "./pages/MovieDetailPage";
+import MovieDetailPage, {
+  loader as movieDetailLoader,
+} from "./pages/MovieDetailPage";
 import { lazy, Suspense } from "react";
 import MovieDetailSkeleton from "./components/MovieDetail/MovieDetailSkeleton";
-const MovieDetailPage = lazy(() => import("./pages/MovieDetailPage"));
+// const MovieDetailPage = lazy(() => import("./pages/MovieDetailPage"));
 
 const router = createBrowserRouter([
   {
@@ -24,20 +26,22 @@ const router = createBrowserRouter([
       {
         path: "/detail/:movieId",
         element: (
-          <Suspense
-            fallback={
-              <Card className="py-4">
-                <MovieDetailSkeleton />
-              </Card>
-            }
-          >
-            <MovieDetailPage />
-          </Suspense>
+          <MovieDetailPage />
+          // <Suspense
+          //   fallback={
+          //     <Card className="py-4">
+          //       <MovieDetailSkeleton />
+          //     </Card>
+          //   }
+          // >
+          //   <MovieDetailPage />
+          // </Suspense>
         ),
-        loader: (meta) =>
-          import("./pages/MovieDetailPage").then((module) =>
-            module.loader(meta)
-          ),
+        loader: movieDetailLoader,
+        //(meta) =>
+        //   import("./pages/MovieDetailPage").then((module) =>
+        //     module.loader(meta)
+        //   ),
       },
     ],
   },
