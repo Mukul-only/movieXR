@@ -13,7 +13,12 @@ const SectionHeader = (props) => {
         <span className="block w-10 h-2 rounded-full bg-primary" />
       </span>
 
-      <Link to={props.back ? "/" : props.to}>
+      <Link
+        to={props.back ? "/" : props.to}
+        onClick={() => {
+          window.scrollTo(0, 0);
+        }}
+      >
         <div className="flex space-x-1 items-center text-xs md:text-base text-gray-400 hover:text-white cursor-pointer duration-200 group">
           {props.back ? (
             <>
