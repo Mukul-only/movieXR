@@ -24,6 +24,8 @@ const AltCard = ({ data, className }) => {
   const dispatch = useDispatch();
   const page = searchParams.get("page");
   const query = searchParams.get("query");
+  const cnt =
+    data?.count >= 1000 ? (data?.count / 1000).toFixed(1) + "k" : data?.count;
   const movieClickHandler = () => {
     const url =
       location.pathname +
@@ -52,11 +54,17 @@ const AltCard = ({ data, className }) => {
         />
         <div className="absolute inset-0 flex flex-col justify-between grad-card">
           <div className="flex items-center justify-between gap-3 p-2 md:px-4 md:py-3">
-            <div className="flex gap-1 px-3 py-1 bg-black rounded-full  w-max md:px-4">
+            <div className="flex gap-1 px-3 py-1 bg-black rounded-full w-max md:px-4">
               <SVG svg={Star} className="w-3 md:w-4" />
               <p className="text-xs tracking-tighter md:text-sm">{rating}</p>
             </div>
-            <SVG svg={Plus} className="w-8 md:hidden" />
+            {data.count ? (
+              <span className="flex items-center justify-center w-8 h-8 rounded-full md:hidden bg-primary">
+                {cnt}
+              </span>
+            ) : (
+              <SVG svg={Plus} className="w-8 md:hidden" />
+            )}
           </div>
           <div>
             <div className="flex items-center justify-between px-2 py-4 space-x-4">
@@ -66,7 +74,13 @@ const AltCard = ({ data, className }) => {
                 </p>
                 <p className="text-sm md:text-base">{year}</p>
               </span>
-              <SVG svg={Plus} className="hidden md:block md:w-12" />
+              {data.count ? (
+                <span className="items-center justify-center hidden w-12 h-12 rounded-full md:flex bg-primary">
+                  {data.count}
+                </span>
+              ) : (
+                <SVG svg={Plus} className="hidden md:block md:w-12" />
+              )}
             </div>
             <span className="block w-full h-[0.4rem] bg-primary" />
           </div>

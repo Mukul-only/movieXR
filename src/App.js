@@ -7,7 +7,9 @@ import MovieTypePage, { loader as typeLoader } from "./pages/MovieTypePage";
 import MovieDetailPage, {
   loader as movieDetailLoader,
 } from "./pages/MovieDetailPage";
-import RequestedMoviePage from "./pages/RequestedMoviePage";
+import RequestedMoviePage, {
+  loader as requestedMoviesLoader,
+} from "./pages/RequestedMoviePage";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { ipSliceAction } from "./store/ip-slice";
@@ -50,6 +52,7 @@ const router = createBrowserRouter([
       {
         path: "/requested",
         element: <RequestedMoviePage />,
+        loader: requestedMoviesLoader,
       },
     ],
   },

@@ -20,13 +20,13 @@ const MoviePage = (props) => {
   const totalResults = props?.data?.total_results;
   return (
     <>
-      <p className="text-xs md:text-sm text-gray-400 mt-1">
+      <p className="mt-1 text-xs text-gray-400 md:text-sm">
         results : {totalResults}
       </p>
       {totalResults > 0 ? (
         <>
           <NavigationButton totalPage={totalPage} className="mt-6" />
-          <div className="grid-movie mt-6">
+          <div className="mt-6 grid-movie">
             {navigation.state === "loading" ? (
               <Skeleton />
             ) : (

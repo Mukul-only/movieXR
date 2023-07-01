@@ -12,7 +12,7 @@ const readRequestedMovies = async (movieId) => {
     }
 
     const resData = await res.text();
-    // console.log(resData);
+
     return resData;
   } catch (error) {
     return error.message;

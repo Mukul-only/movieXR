@@ -72,11 +72,11 @@ const MovieTypePage = (props) => {
 
   return (
     <Card className="py-4 ">
-      <SectionHeader title={title} back />
+      <SectionHeader title={title} back="/" />
 
       <Suspense
         fallback={
-          <div className="grid-movie mt-24">
+          <div className="mt-24 grid-movie">
             <Skeleton />
           </div>
         }
@@ -86,7 +86,7 @@ const MovieTypePage = (props) => {
           errorElement={
             <ErrorElement
               error="Could not fetch data."
-              className="my-12 mx-auto"
+              className="mx-auto my-12"
             />
           }
         >
