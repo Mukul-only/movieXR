@@ -1,14 +1,18 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Root from "./pages/Root";
 import LandingPage, { loader as movieLoader } from "./pages/LandingPage";
-import { Skeleton } from "./pages/MovieTypePage";
-import Card from "./UI/Card";
+// import { Skeleton } from "./pages/MovieTypePage";
+// import Card from "./UI/Card";
 import MovieTypePage, { loader as typeLoader } from "./pages/MovieTypePage";
 import MovieDetailPage, {
   loader as movieDetailLoader,
 } from "./pages/MovieDetailPage";
-import { lazy, Suspense } from "react";
-import MovieDetailSkeleton from "./components/MovieDetail/MovieDetailSkeleton";
+import RequestedMoviePage from "./pages/RequestedMoviePage";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { ipSliceAction } from "./store/ip-slice";
+// import { lazy, Suspense } from "react";
+// import MovieDetailSkeleton from "./components/MovieDetail/MovieDetailSkeleton";
 // const MovieDetailPage = lazy(() => import("./pages/MovieDetailPage"));
 
 const router = createBrowserRouter([
@@ -43,11 +47,32 @@ const router = createBrowserRouter([
         //     module.loader(meta)
         //   ),
       },
+      {
+        path: "/requested",
+        element: <RequestedMoviePage />,
+      },
     ],
   },
 ]);
 
 function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const getIp = async () => {
+      try {
+        const res = await fetch("https://api.ipify.org/?format=json");
+        if (!res.ok) {
+          throw new Error("some thing went wrong!");
+        }
+        const resData = await res.json();
+        // console.log(resData);
+        dispatch(ipSliceAction.setIp(resData.ip));
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    getIp();
+  }, []);
   return <RouterProvider router={router} />;
 }
 

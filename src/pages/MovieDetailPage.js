@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import { formDataAction } from "../store/formData-slice";
 import { formValidationAction } from "../store/formValidation-slice";
 import readData from "../ApiCalls/readData";
+import readRequestedMovies from "../ApiCalls/readRequestedMovies";
 const MovieDetailPage = (props) => {
   const dispatch = useDispatch();
   const params = useParams();
@@ -30,7 +31,7 @@ const MovieDetailPage = (props) => {
           errorElement={
             <ErrorElement
               error="Could not fetch data."
-              className="my-12 mx-auto"
+              className="mx-auto my-12"
             />
           }
         >

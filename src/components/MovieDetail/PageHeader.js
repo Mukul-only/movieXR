@@ -19,20 +19,20 @@ const PageHeader = (props) => {
     setShow(e);
   };
   return (
-    <div className="flex justify-between items-center">
+    <div className="flex items-center justify-between">
       <div
-        className="flex space-x-1 items-center text-xs md:text-base text-gray-400 hover:text-white cursor-pointer duration-200 group"
+        className="flex items-center space-x-1 text-xs text-gray-400 duration-200 cursor-pointer md:text-base hover:text-white group"
         onClick={backHandler}
       >
         <SVG
           svg={Arrow}
-          className="w-4 h-4 md:w-5 md:h-5 fill-gray-400 group-hover:fill-white rotate-180"
+          className="w-4 h-4 rotate-180 md:w-5 md:h-5 fill-gray-400 group-hover:fill-white"
         />
         <span>back</span>
       </div>
       <SVG
         svg={Edit}
-        className="w-4 h-4 md:w-5 md:h-5 fill-gray-400 hover:fill-white cursor-pointer"
+        className="w-4 h-4 cursor-pointer md:w-5 md:h-5 fill-gray-400 hover:fill-white"
         onClick={() => {
           showHandler(true);
         }}

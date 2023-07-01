@@ -6,6 +6,7 @@ import { useState } from "react";
 import DownloadSection from "./DownloadSection";
 import { useEffect } from "react";
 
+import RequestMovie from "./RequestMovie";
 const transformVote = (num) => {
   if (num >= 1000 && num < 1000000) {
     return (num / 1000).toFixed(1) + "k";
@@ -30,36 +31,42 @@ const MovieDetail = ({ data, downloadDetail }) => {
   const runtime = transformRuntime(data?.runtime);
   const spokenLanguage = data?.spoken_languages;
   const overview = data?.overview;
-
+  const movieId = data?.id;
   const [link, setLink] = useState();
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  downloadDetail.then((e) => {
-    setLink(e);
-  });
+  const fetchData = async () => {
+    const resLink = await downloadDetail;
+
+    setLink(resLink);
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <div>
-      <div className="flex flex-col lg:flex-row gap-12 py-12 border-b border-Gray">
+      <div className="flex flex-col gap-12 py-12 border-b lg:flex-row border-Gray">
         <img
           src={imageUrl}
-          className="rounded-xl w-64 lg:w-1/5 object-cover mx-auto"
+          className="object-cover w-64 mx-auto rounded-xl lg:w-1/5"
         />
-        <div className="space-y-4 flex-1">
-          <h1 className="text-xl md:text-3xl font-black  rounded-lg border-l-8 border-primary pl-4 md:pl-6 py-2">
+        <div className="flex-1 space-y-4">
+          <h1 className="py-2 pl-4 text-xl font-black border-l-8 rounded-lg md:text-3xl border-primary md:pl-6">
             {title}
           </h1>
-          <div className="flex gap-3  flex-wrap">
+          <div className="flex flex-wrap gap-3">
             {genres.map((item) => (
               <Genres genre={item.name} key={item.id} />
             ))}
           </div>
-          <p className="text-gray-200 text-sm md:text-base">
+          <p className="text-sm text-gray-200 md:text-base">
             Release date : {releaseDate}
           </p>
-          <div className="flex gap-3 text-gray-200 text-sm md:text-base items-center flex-wrap">
+          <div className="flex flex-wrap items-center gap-3 text-sm text-gray-200 md:text-base">
             <span className="flex items-center space-x-2 ">
               <SVG svg={Imdb} className="w-6 h-6" />
               <p>{vote},</p>
@@ -67,9 +74,9 @@ const MovieDetail = ({ data, downloadDetail }) => {
             <p>Votes : {voteCount},</p>
             <p>Rutime : {runtime}</p>
           </div>
-          <span className="flex items-center space-x-2 text-gray-200 text-sm xl:text-base">
-            <span className="flex gap-2 flex-wrap">
-              <span className="flex gap-1 items-center">
+          <span className="flex items-center space-x-2 text-sm text-gray-200 xl:text-base">
+            <span className="flex flex-wrap gap-2">
+              <span className="flex items-center gap-1">
                 <SVG svg={Globe} className="w-4 h-4 md:w-5 md:h-5" />
                 <p>Languages : </p>
               </span>
@@ -80,26 +87,32 @@ const MovieDetail = ({ data, downloadDetail }) => {
               ))}
             </span>
           </span>
-          <p className="text-gray-400  font-normal text-sm md:text-base">
+          <p className="text-sm font-normal text-gray-400 md:text-base">
             {overview}
           </p>
         </div>
       </div>
       <div className="flex flex-col items-center py-6">
-        <h1 className="text-lg mx-auto md:text-2xl tracking-wider font-black  rounded-lg border-l-8 border-primary pl-6 md:pl-8 py-2">
+        <h1 className="py-2 pl-6 mx-auto text-lg font-black tracking-wider border-l-8 rounded-lg md:text-2xl border-primary md:pl-8">
           Download Links
         </h1>
 
         {link === undefined && (
-          <span className="loading-text w-52 md:w-64 h-12 rounded-lg mt-6" />
+          <span className="h-12 mt-6 rounded-lg loading-text w-52 md:w-64" />
         )}
         {link ? (
           <DownloadSection data={link} />
         ) : (
           link === null && (
-            <p className="text-sm font-semibold text-Gray-500 mt-6 text-center">
-              Download links will be available shortly.
-            </p>
+            <RequestMovie
+              data={{
+                id: movieId,
+                vote_average: data?.vote_average,
+                title: title,
+                poster_path: data?.poster_path,
+                release_date: data?.release_date,
+              }}
+            />
           )
         )}
       </div>

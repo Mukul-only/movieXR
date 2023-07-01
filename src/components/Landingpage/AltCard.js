@@ -48,18 +48,18 @@ const AltCard = ({ data, className }) => {
           onError={() => {
             setImageHasError(true);
           }}
-          className="w-full h-full object-cover group-hover:scale-110 duration-300"
+          className="object-cover w-full h-full duration-300 group-hover:scale-110"
         />
         <div className="absolute inset-0 flex flex-col justify-between grad-card">
-          <div className="flex justify-between gap-3 items-center p-2 md:px-4 md:py-3">
-            <div className=" flex gap-1  w-max rounded-full px-3 md:px-4 py-1 bg-black">
+          <div className="flex items-center justify-between gap-3 p-2 md:px-4 md:py-3">
+            <div className="flex gap-1 px-3 py-1 bg-black rounded-full  w-max md:px-4">
               <SVG svg={Star} className="w-3 md:w-4" />
               <p className="text-xs tracking-tighter md:text-sm">{rating}</p>
             </div>
             <SVG svg={Plus} className="w-8 md:hidden" />
           </div>
           <div>
-            <div className="flex space-x-4 justify-between items-center px-2 py-4">
+            <div className="flex items-center justify-between px-2 py-4 space-x-4">
               <span className="space-y-1">
                 <p className="md:max-w-[8rem] tracking-tight font-medium md:font-[600] text-base  md:text-base leading-tight">
                   {title}
