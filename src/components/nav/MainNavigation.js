@@ -14,11 +14,13 @@ const MainNavigation = (props) => {
   const page = searchParams.get("page");
   const query = searchParams.get("query");
   const clickHandler = () => {
-    const url =
-      location.pathname +
-      (page ? `?page=${page}` : "") +
-      (query ? `&query=${query}` : "");
-    dispatch(navigationAction.setReqUrl(url));
+    if (location.pathname !== "/requested") {
+      const url =
+        location.pathname +
+        (page ? `?page=${page}` : "") +
+        (query ? `&query=${query}` : "");
+      dispatch(navigationAction.setReqUrl(url));
+    }
   };
   return (
     <div className="sticky top-0 left-0 right-0 z-20 border-b border-Gray bg-background">
