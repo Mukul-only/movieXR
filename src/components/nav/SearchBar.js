@@ -103,7 +103,7 @@ const SearchBar = (props) => {
             }
           }}
           onBlur={inputBlurHandler}
-          className={`flex-1 w-0 pr-2 py-2   md:text-sm bg-transparent outline-none placeholder:text-Gray-500`}
+          className={`flex-1 w-0 pr-2 py-[6px]   md:text-sm bg-transparent outline-none placeholder:text-Gray-500`}
           onKeyDown={submitHandler}
           onFocus={() => focusHandler(true)}
         />
