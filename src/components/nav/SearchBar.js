@@ -53,6 +53,12 @@ const SearchBar = (props) => {
     };
   }, [input]);
 
+  useEffect(() => {
+    if (props.show) {
+      inputRef.current.focus();
+    }
+  }, []);
+
   const keywordClickHandler = (query) => {
     setInput(query);
     inputRef.current.focus();
