@@ -20,6 +20,7 @@ module.exports = {
         "Gray-500": "#575757",
         "Gray-400": "#2F2E2E",
         "primary-500": "#840700",
+        "Gray-200": "#969696",
       },
       maxWidth: {
         "8xl": "86rem",

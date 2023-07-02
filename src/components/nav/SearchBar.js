@@ -2,7 +2,9 @@ import { useNavigate, useNavigation } from "react-router-dom";
 import useInput from "../../hooks/use-input";
 import SVG from "../../svg/SVG";
 import Search from "../../svg/Search";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import keywordsFetch from "../../ApiCalls/keywordsFetch";
+import { twMerge } from "tailwind-merge";
 
 const SearchBar = (props) => {
   const inputRef = useRef();
@@ -17,33 +19,123 @@ const SearchBar = (props) => {
     inputChangeHandler,
     reset,
   } = useInput((value) => value.trim().length !== 0);
+  const [inputFocus, setInputFocus] = useState(false);
+
   const navigate = useNavigate();
+  const [keywords, setKeywords] = useState();
+  const [fetching, setFetching] = useState(false);
   const submitHandler = (e) => {
     if (e.key === "Enter" && isValid) {
       navigate(`/result?query=${input}&page=1`);
       inputRef.current.blur();
       setInput("");
+      if (props.closeOverlay) props.closeOverlay();
     }
   };
+
+  const focusHandler = (e) => {
+    setInputFocus(e);
+  };
+
+  useEffect(() => {
+    setFetching(true);
+    const keywordsFetcher = async () => {
+      const keys = await keywordsFetch(input);
+      setKeywords(keys);
+      setFetching(false);
+    };
+
+    const identifier = setTimeout(() => {
+      keywordsFetcher();
+    }, 800);
+    return () => {
+      clearTimeout(identifier);
+    };
+  }, [input]);
+
+  const keywordClickHandler = (query) => {
+    setInput(query);
+    inputRef.current.focus();
+    setInputFocus(false);
+  };
+
+  // https://muffinman.io/blog/catching-the-blur-event-on-an-element-and-its-children/ {prob. parent closes before listening to child..}
+
+  const handleBlur = (e) => {
+    const currentTarget = e.currentTarget;
+    requestAnimationFrame(() => {
+      if (!currentTarget.contains(document.activeElement)) {
+        setInputFocus(false);
+      }
+    });
+  };
+
   return (
     <div
-      className={`flex-1 md:flex-none md:w-72 flex rounded-full items-center overflow-hidden  border bg-Dark-700 border-Dark-700 px-2 md:px-3   `}
+      className={twMerge(
+        `relative ${props.show ? "block" : "hidden"} md:block `,
+        props.className
+      )}
+      tabIndex={0}
+      onBlur={handleBlur}
+      onClick={props.onClick}
     >
-      <input
-        ref={inputRef}
-        type="text"
-        placeholder="Search your favorite moive"
-        value={input}
-        onChange={inputChangeHandler}
-        onBlur={inputBlurHandler}
-        className="bg-transparent placeholder:text-Gray-500 text-sm px-2 py-1 outline-none flex-1 w-0"
-        onKeyDown={submitHandler}
-      />
-      <SVG
-        svg={Search}
-        className="w-5 h-5 stroke-Gray-500 fill-transparent cursor-pointer hover:stroke-white duration-300"
-        onClick={() => submitHandler({ key: "Enter" })}
-      />
+      <div
+        className={`w-full md:w-96 flex rounded-full items-center overflow-hidden  border bg-Dark-700 ${
+          inputFocus ? "border-gray-500" : "border-Gray"
+        } px-4    `}
+      >
+        <input
+          ref={inputRef}
+          type="text"
+          placeholder="Search your favorite moive"
+          value={input}
+          onChange={(e) => {
+            inputChangeHandler(e);
+            if (!inputFocus) {
+              setInputFocus(true);
+            }
+          }}
+          onBlur={inputBlurHandler}
+          className={`flex-1 w-0 pr-2 py-2   md:text-sm bg-transparent outline-none placeholder:text-Gray-500`}
+          onKeyDown={submitHandler}
+          onFocus={() => focusHandler(true)}
+        />
+        <SVG
+          svg={Search}
+          className="w-6 h-6 duration-300 cursor-pointer md:w-5 md:h-5 stroke-Gray-500 fill-transparent hover:stroke-white"
+          onClick={() => {
+            setInputFocus(false);
+            submitHandler({ key: "Enter" });
+          }}
+        />
+      </div>
+      {inputFocus && (
+        <div className="absolute left-0 right-0 border top-[120%]  rounded-xl bg-Dark-700 border-Gray px-4 py-6 max-h-[500px] overflow-y-auto">
+          {(!keywords || keywords.total_results === 0) && !fetching ? (
+            <p className="font-semibold text-center text-Gray-500">
+              No recent searches
+            </p>
+          ) : fetching ? (
+            <div className="space-y-4">
+              <span className="block w-[80%] h-3 rounded-full loading-text" />
+              <span className="block w-[60%] h-3 rounded-full loading-text" />
+              <span className="block w-[40%] h-3 rounded-full loading-text" />
+              <span className="block w-[80%] h-3 rounded-full loading-text" />
+            </div>
+          ) : (
+            keywords?.results?.map((item) => (
+              <p
+                className="py-1 font-bold text-gray-300 cursor-pointer hover:text-white"
+                key={item.id}
+                onClick={() => keywordClickHandler(item.title)}
+              >
+                {item.title}
+              </p>
+            ))
+          )}
+        </div>
+      )}
     </div>
   );
 };
