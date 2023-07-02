@@ -13,6 +13,9 @@ import RequestedMoviePage, {
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { ipSliceAction } from "./store/ip-slice";
+import TermsPage from "./pages/TermsPage";
+import PrivacyPage from "./pages/PrivacyPage";
+import DownloadVideoPage from "./pages/DownloadVideoPage";
 // import { lazy, Suspense } from "react";
 // import MovieDetailSkeleton from "./components/MovieDetail/MovieDetailSkeleton";
 // const MovieDetailPage = lazy(() => import("./pages/MovieDetailPage"));
@@ -53,6 +56,18 @@ const router = createBrowserRouter([
         path: "/requested",
         element: <RequestedMoviePage />,
         loader: requestedMoviesLoader,
+      },
+      {
+        path: "/how_to_download",
+        element: <DownloadVideoPage />,
+      },
+      {
+        path: "/terms",
+        element: <TermsPage />,
+      },
+      {
+        path: "/privacy",
+        element: <PrivacyPage />,
       },
     ],
   },

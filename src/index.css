@@ -17,6 +17,7 @@ body {
   font-family: "Lato", sans-serif;
   color: white;
   @apply bg-background;
+  overflow-x: hidden;
 }
 
 .grad-card {
@@ -259,4 +260,7 @@ body {
 }
 .req-inactive .fill {
   display: none;
+}
+.socials {
+  @apply w-6;
 }
