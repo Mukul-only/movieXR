@@ -10,6 +10,7 @@ import RequestedMovieList from "../components/RequestedMovie/RequestedMovieList"
 
 import { Skeleton } from "./MovieTypePage";
 import { useSelector } from "react-redux";
+import reviver from "../Utility/reviver";
 const RequestedMoviePage = () => {
   const { requestedMovie } = useLoaderData();
   const { reqUrl } = useSelector((state) => state.navigationSlice);
@@ -32,7 +33,9 @@ const RequestedMoviePage = () => {
             <ErrorElement error="Could not fetch data." className="my-12 " />
           }
         >
-          {(loadedData) => <RequestedMovieList data={JSON.parse(loadedData)} />}
+          {(loadedData) => (
+            <RequestedMovieList data={JSON.parse(loadedData, reviver)} />
+          )}
         </Await>
       </Suspense>
     </Card>

@@ -15,7 +15,7 @@ import decryptData from "../auth/decryptData";
 
 import shortLink from "../shortLinks/shortLink";
 import removeReqMovies from "../ApiCalls/removeReqMoveis";
-const authenticator = (text) => {
+export const authenticator = (text) => {
   const decryptedData = decryptData(text);
   if (decryptedData === "{f4OY0-6Fq$B'lP2SHs6V8Q_") {
     return true;

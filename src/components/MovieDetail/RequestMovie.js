@@ -5,27 +5,8 @@ import Add from "../../svg/Add";
 import writeRequestedMovies from "../../ApiCalls/writeRequestedMovies";
 import { useSelector } from "react-redux";
 import readRequestedMovies from "../../ApiCalls/readRequestedMovies";
-
-function replacer(key, value) {
-  if (value instanceof Map) {
-    return {
-      dataType: "Map",
-      value: Array.from(value.entries()), // or with spread: value: [...value]
-    };
-  } else {
-    return value;
-  }
-}
-
-function reviver(key, value) {
-  if (typeof value === "object" && value !== null) {
-    if (value.dataType === "Map") {
-      return new Map(value.value);
-    }
-  }
-  return value;
-}
-
+import replacer from "../../Utility/replacer";
+import reviver from "../../Utility/reviver";
 const RequestMovie = ({ data }) => {
   const { ip } = useSelector((state) => state.ip);
   const [show, setShow] = useState(false);
