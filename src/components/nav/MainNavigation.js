@@ -9,14 +9,40 @@ import { useDispatch } from "react-redux";
 import { navigationAction } from "../../store/Navigation-slice";
 import Search from "../../svg/Search";
 import SearchOverlay from "./SearchOverlay";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import bell from "../../svg/bell";
+import Notification from "./Notification";
+import bellActive from "../../svg/bellActive";
+import readNotifications from "../../ApiCalls/readNotifications";
+import { useSelector } from "react-redux";
+import convertIp from "../../Utility/convertIp";
+import bellRedDot from "../../svg/bellRedDot";
 const MainNavigation = (props) => {
   const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
   const [showOverlay, setShowOverlay] = useState(false);
+  const [showNotification, setShowNotification] = useState(false);
   const location = useLocation();
   const page = searchParams.get("page");
   const query = searchParams.get("query");
+  const [notificationData, setNotificationData] = useState();
+  const { ip } = useSelector((state) => state.ip);
+  const [loading, setLoading] = useState(false);
+  const [flag, setFlag] = useState(false);
+
+  useEffect(() => {
+    if (ip) {
+      const readNotificationData = async () => {
+        const newIp = convertIp(ip);
+        setLoading(true);
+        const res = await readNotifications(newIp);
+        setNotificationData(res);
+        setLoading(false);
+      };
+      readNotificationData();
+    }
+  }, [ip, flag]);
+
   const clickHandler = () => {
     if (location.pathname !== "/requested") {
       const url =
@@ -27,14 +53,48 @@ const MainNavigation = (props) => {
     }
   };
 
+  const notificationHandler = () => {
+    setShowNotification((prev) => !prev);
+  };
+  window.onclick = () => {
+    setShowNotification(false);
+  };
   return (
     <div className="sticky top-0 left-0 right-0 z-20 border-b border-Gray bg-background">
-      <Card className="flex items-center justify-between py-3 space-x-6 ">
+      <Card className="relative flex items-center justify-between py-3 space-x-6 ">
         <Link to="/">
           <SVG svg={Brand} className="w-24 md:w-36" />
         </Link>
         <SearchBar />
         <span className="flex items-center space-x-4 md:flex-none">
+          {showNotification ? (
+            <SVG
+              svg={bellActive}
+              className="w-5 cursor-pointer md:w-6"
+              onClick={(e) => {
+                e.stopPropagation();
+                notificationHandler();
+              }}
+            />
+          ) : notificationData ? (
+            <SVG
+              svg={bellRedDot}
+              className="w-5 cursor-pointer md:w-6"
+              onClick={(e) => {
+                e.stopPropagation();
+                notificationHandler();
+              }}
+            />
+          ) : (
+            <SVG
+              svg={bell}
+              className="w-5 cursor-pointer md:w-6"
+              onClick={(e) => {
+                e.stopPropagation();
+                notificationHandler();
+              }}
+            />
+          )}
           <NavLink
             to="/requested"
             className={({ isActive }) =>
@@ -51,6 +111,17 @@ const MainNavigation = (props) => {
             onClick={() => setShowOverlay(true)}
           />
         </span>
+        {showNotification && (
+          <Notification
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+            data={notificationData}
+            loading={loading}
+            setFlag={setFlag}
+            setShowNotification={setShowNotification}
+          />
+        )}
       </Card>
       <SearchOverlay show={showOverlay} onClick={setShowOverlay} />
     </div>

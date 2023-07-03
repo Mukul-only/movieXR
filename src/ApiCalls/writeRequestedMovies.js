@@ -10,7 +10,9 @@ const writeRequestedMovies = async (movieId, data) => {
     };
     const resposnse = await fetch(url, options);
     if (!resposnse.ok) {
-      throw new Error("failed");
+      throw new Error(
+        "Something went wrong: could not write requested moves !"
+      );
     }
   } catch (error) {
     return error.message;

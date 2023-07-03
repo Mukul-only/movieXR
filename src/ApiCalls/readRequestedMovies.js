@@ -15,7 +15,8 @@ const readRequestedMovies = async (movieId) => {
 
     return resData;
   } catch (error) {
-    return error.message;
+    console.log(error.message);
+    return false;
   }
 };
 export default readRequestedMovies;
