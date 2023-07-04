@@ -31,14 +31,20 @@ const Footer = (props) => {
           <Link to="/">
             <SVG svg={Brand} className="w-24 md:w-32" />
           </Link>
-          <a
+          {/* <a
             href="https://drive.google.com/file/d/1vS3JRDfie3cBeNxZUOxH8PGU8qNZ5p_X/view?usp=sharing  "
             target="_blank"
             rel="noreferrer"
             className="block py-1 mt-6 text-Gray-200 hover:text-white"
           >
             How to download ?
-          </a>
+          </a> */}
+
+          <FooterLinks
+            to="/download_process"
+            text="How to downlaod ?"
+            className="mt-6"
+          />
           <FooterLinks to="/terms" text="Terms Of Service" />
           <FooterLinks to="/privacy" text="Privacy Policy" />
         </div>

@@ -15,6 +15,7 @@ import { useDispatch } from "react-redux";
 import { ipSliceAction } from "./store/ip-slice";
 import TermsPage from "./pages/TermsPage";
 import PrivacyPage from "./pages/PrivacyPage";
+import DownloadProcessPage from "./pages/DownloadProcessPage";
 
 // import { lazy, Suspense } from "react";
 // import MovieDetailSkeleton from "./components/MovieDetail/MovieDetailSkeleton";
@@ -57,7 +58,10 @@ const router = createBrowserRouter([
         element: <RequestedMoviePage />,
         loader: requestedMoviesLoader,
       },
-
+      {
+        path: "download_process",
+        element: <DownloadProcessPage />,
+      },
       {
         path: "/terms",
         element: <TermsPage />,
