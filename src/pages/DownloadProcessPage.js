@@ -4,14 +4,18 @@ const DownloadProcessPage = (props) => {
   return (
     <BlogPage
       heading="How to download ?"
-      className="w-full overflow-hidden bg-black border rounded-xl border-Gray aspect-video max-w-none md:max-w-none"
+      className="w-[80%] sm:w-full overflow-hidden bg-black border rounded-xl border-Gray aspect-[8/18] sm:aspect-video max-w-none md:max-w-none"
     >
       <iframe
-        src="https://drive.google.com/file/d/1jFhux5claM1fF03TgGfyZ8CjiVkaFIwL/preview"
-        allow="autoplay"
-        className="w-full h-full"
-        allowFullScreen
+        src="https://player.vimeo.com/video/842263703?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479"
+        frameborder="0"
+        allow="autoplay; fullscreen; picture-in-picture"
+        allowfullscreen
+        className="w-full h-full "
+        title="Download process.mp4"
       />
+
+      <script src="https://player.vimeo.com/api/player.js"></script>
     </BlogPage>
   );
 };
