@@ -25,7 +25,7 @@ const FooterLinks = (props) => {
 
 const Footer = (props) => {
   return (
-    <div className="py-6 border-t border-Gray mt-96">
+    <div className="py-6 mt-24 border-t border-Gray">
       <Card className="flex flex-col items-center justify-between md:items-start md:flex-row">
         <div className="flex flex-col items-center md:items-start">
           <Link to="/">
