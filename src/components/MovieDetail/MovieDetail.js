@@ -24,6 +24,7 @@ const transformRuntime = (num) => {
 
 const MovieDetail = ({ data, downloadDetail }) => {
   const imageUrl = `https://image.tmdb.org/t/p/w500/${data?.poster_path}`;
+  const backdrop = `https://image.tmdb.org/t/p/w500/${data?.backdrop_path}`;
   const title = data?.title;
   const genres = data?.genres;
   const releaseDate = data?.release_date;
@@ -55,6 +56,7 @@ const MovieDetail = ({ data, downloadDetail }) => {
           src={imageUrl}
           className="object-cover w-64 mx-auto rounded-xl lg:w-1/5"
         />
+
         <div className="flex-1 space-y-4">
           <h1 className="py-2 pl-4 text-xl font-black border-l-8 rounded-lg md:text-3xl border-primary md:pl-6">
             {title}

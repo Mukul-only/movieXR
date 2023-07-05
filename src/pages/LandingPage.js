@@ -24,7 +24,11 @@ const LandingPage = (props) => {
 
   return (
     <Card className="mt-2 mb-16">
-      <SectionHeader title="Trending" className="py-6" to="now_playing" />
+      <SectionHeader
+        title="Trending"
+        className="py-6"
+        to="now_playing?page=1"
+      />
       <Suspense fallback={<TrendingSectionLoading />}>
         <Await
           resolve={trendingMovie}
@@ -35,7 +39,11 @@ const LandingPage = (props) => {
           {(loadedMovies) => <TrendingSection data={loadedMovies?.results} />}
         </Await>
       </Suspense>
-      <SectionHeader title="Upcoming" className="py-6 mt-10" to="upcoming" />
+      <SectionHeader
+        title="Upcoming"
+        className="py-6 mt-10"
+        to="upcoming?page=1"
+      />
       <Suspense fallback={<AltLoading />}>
         <Await
           resolve={upcomingMovie}
@@ -49,7 +57,7 @@ const LandingPage = (props) => {
       <SectionHeader
         title="Popular"
         className="py-6 mt-2 md:mt-6"
-        to="popular"
+        to="popular?page=1"
       />
       <Suspense fallback={<AltLoading />}>
         <Await
@@ -64,7 +72,7 @@ const LandingPage = (props) => {
       <SectionHeader
         title="Bollywood"
         className="py-6 mt-2 md:mt-6"
-        to="bollywood"
+        to="bollywood?page=1"
       />
       <Suspense fallback={<AltLoading />}>
         <Await
@@ -79,7 +87,7 @@ const LandingPage = (props) => {
       <SectionHeader
         title="Hollywood"
         className="py-6 mt-2 md:mt-6"
-        to="hollywood"
+        to="hollywood?page=1"
       />
       <Suspense fallback={<AltLoading />}>
         <Await
@@ -94,7 +102,7 @@ const LandingPage = (props) => {
       <SectionHeader
         title="Top Rated"
         className="py-6 mt-2 md:mt-6"
-        to="top_rated"
+        to="top_rated?page=1"
       />
       <Suspense fallback={<AltLoading />}>
         <Await

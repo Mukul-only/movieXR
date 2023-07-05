@@ -17,19 +17,19 @@ import ErrorElement from "../UI/ErrorElement";
 export const Skeleton = (props) => {
   return (
     <>
-      <LoadingCard className="w-full" />
-      <LoadingCard className="w-full" />
-      <LoadingCard className="w-full" />
-      <LoadingCard className="w-full" />
-      <LoadingCard className="w-full" />
-      <LoadingCard className="w-full" />
-      <LoadingCard className="w-full" />
-      <LoadingCard className="w-full" />
-      <LoadingCard className="w-full" />
-      <LoadingCard className="w-full" />
-      <LoadingCard className="w-full" />
-      <LoadingCard className="w-full" />
-      <LoadingCard className="w-full" />
+      <LoadingCard className="w-[158px] h-[250px] md:w-[204px] md:h-[290px]" />
+      <LoadingCard className="w-[158px] h-[250px] md:w-[204px] md:h-[290px]" />
+      <LoadingCard className="w-[158px] h-[250px] md:w-[204px] md:h-[290px]" />
+      <LoadingCard className="w-[158px] h-[250px] md:w-[204px] md:h-[290px]" />
+      <LoadingCard className="w-[158px] h-[250px] md:w-[204px] md:h-[290px]" />
+      <LoadingCard className="w-[158px] h-[250px] md:w-[204px] md:h-[290px]" />
+      <LoadingCard className="w-[158px] h-[250px] md:w-[204px] md:h-[290px]" />
+      <LoadingCard className="w-[158px] h-[250px] md:w-[204px] md:h-[290px]" />
+      <LoadingCard className="w-[158px] h-[250px] md:w-[204px] md:h-[290px]" />
+      <LoadingCard className="w-[158px] h-[250px] md:w-[204px] md:h-[290px]" />
+      <LoadingCard className="w-[158px] h-[250px] md:w-[204px] md:h-[290px]" />
+      <LoadingCard className="w-[158px] h-[250px] md:w-[204px] md:h-[290px]" />
+      <LoadingCard className="w-[158px] h-[250px] md:w-[204px] md:h-[290px]" />
     </>
   );
 };

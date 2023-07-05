@@ -18,6 +18,7 @@ const MoviePage = (props) => {
   }, [page]);
   const totalPage = props?.data?.total_pages;
   const totalResults = props?.data?.total_results;
+
   return (
     <>
       <p className="mt-1 text-xs text-gray-400 md:text-sm">
