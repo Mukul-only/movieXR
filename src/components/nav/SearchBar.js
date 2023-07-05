@@ -132,7 +132,7 @@ const SearchBar = (props) => {
           ) : (
             keywords?.results?.map((item) => (
               <p
-                className="py-1 font-bold text-gray-300 cursor-pointer hover:text-white"
+                className="py-1 pl-2 font-bold text-gray-300 rounded-lg cursor-pointer hover:text-white hover:bg-Gray"
                 key={item.id}
                 onClick={() => keywordClickHandler(item.title)}
               >
