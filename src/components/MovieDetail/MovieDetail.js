@@ -81,7 +81,7 @@ const MovieDetail = ({ data, downloadDetail }) => {
             <span className="flex flex-wrap gap-2">
               <span className="flex items-center gap-1">
                 <SVG svg={Globe} className="w-4 h-4 md:w-5 md:h-5" />
-                <p>Languages : </p>
+                <p>Original language : </p>
               </span>
               {spokenLanguage.map((item) => (
                 <span className="" key={item.english_name}>
