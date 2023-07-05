@@ -50,7 +50,7 @@ const MovieDetail = ({ data, downloadDetail }) => {
   }, []);
 
   return (
-    <div className="mb-64">
+    <div className="">
       <div className="flex flex-col gap-12 py-12 border-b lg:flex-row border-Gray">
         <img
           src={imageUrl}

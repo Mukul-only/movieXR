@@ -6,7 +6,9 @@ const Root = (props) => {
   return (
     <>
       <MainNavigation />
-      <Outlet />
+      <div className="min-h-screen">
+        <Outlet />
+      </div>
       <Footer />
     </>
   );
