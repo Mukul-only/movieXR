@@ -27,7 +27,11 @@ const MovieDetail = ({ data, downloadDetail }) => {
   const backdrop = `https://image.tmdb.org/t/p/w500/${data?.backdrop_path}`;
   const title = data?.title;
   const genres = data?.genres;
-  const releaseDate = data?.release_date;
+  const releaseDate = new Date(data?.release_date).toLocaleDateString("en-US", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
   const vote = (data?.vote_average).toFixed(2);
   const voteCount = transformVote(data?.vote_count);
   const runtime = transformRuntime(data?.runtime);
