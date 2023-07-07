@@ -1,4 +1,4 @@
-const writeData = async (data, setIsSubmitting, setError, movieId, close) => {
+const writeData = async (data, setIsSubmitting, setError, movieId) => {
   try {
     setIsSubmitting(true);
     setError(null);
@@ -18,6 +18,5 @@ const writeData = async (data, setIsSubmitting, setError, movieId, close) => {
     setError(error.message);
   }
   setIsSubmitting(false);
-  close(false);
 };
 export default writeData;

@@ -15,6 +15,7 @@ import decryptData from "../auth/decryptData";
 
 import shortLink from "../shortLinks/shortLink";
 import afterEdit from "../components/EditMovie/afterEdit";
+import FormError from "./FormError";
 
 export const authenticator = (text) => {
   const decryptedData = decryptData(text);
@@ -36,7 +37,7 @@ const Modal = (props) => {
   const movieId = params.movieId;
   const accessKey = localStorage.getItem("access");
   const access = accessKey ? authenticator(accessKey) : false;
-
+  const { name: movieName } = useSelector((state) => state.movieName);
   useEffect(() => {
     if (access) {
       readData(`movies/${movieId}`).then((e) => {
@@ -82,7 +83,9 @@ const Modal = (props) => {
   useEffect(() => {
     // console.log(submit);
     if (submit) {
-      writeData(formData, setIsSubmitting, setError, movieId, props.onClick);
+      writeData(formData, setIsSubmitting, setError, movieId).then(() => {
+        if (!error) props.onClick(false);
+      });
       dispatch(formDataAction.reset());
       dispatch(formValidationAction.reset());
       setSubmit(false);
@@ -92,13 +95,19 @@ const Modal = (props) => {
 
   const submitHandler = () => {
     dispatch(formValidationAction.setTouched(true));
-    if (formIsValid) {
-      const downloadLinks = formData.map((item) => item?.download_link);
+    if (formIsValid && movieName.length > 0) {
+      const downloadLinks = formData.map((item) => item);
+
       setIsShorting(true);
-      shortLink(downloadLinks).then((shortedLinks) => {
-        dispatch(formDataAction.updateFormLinks(shortedLinks));
+      shortLink(downloadLinks, movieName).then((shortedLinks) => {
         setIsShorting(false);
-        setSubmit(true);
+        if (shortedLinks?.status === false) {
+          setError(shortedLinks.message);
+        } else {
+          dispatch(formDataAction.updateFormLinks(shortedLinks));
+
+          setSubmit(true);
+        }
       });
     }
   };
@@ -141,8 +150,14 @@ const Modal = (props) => {
                 >
                   + add more links
                 </p>
+                {error && typeof error === "object" ? (
+                  error.map((item, index) => (
+                    <FormError key={index} text={item} />
+                  ))
+                ) : (
+                  <FormError text={error} />
+                )}
               </div>
-
               <button
                 className={`block text-semibold px-10 py-2 rounded-full mx-auto my-6  bg-primary hover:bg-primary-500 duration-300 ${
                   isSubmitting || isShorting

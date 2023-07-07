@@ -3,17 +3,16 @@ import Card from "../UI/Card";
 import { Suspense, useEffect } from "react";
 import ErrorElement from "../UI/ErrorElement";
 import MovieDetail from "../components/MovieDetail/MovieDetail";
-import PageHeader from "../components/MovieDetail/PageHeader";
 import MovieDetailSkeleton from "../components/MovieDetail/MovieDetailSkeleton";
 import { useDispatch } from "react-redux";
 import { formDataAction } from "../store/formData-slice";
 import { formValidationAction } from "../store/formValidation-slice";
-import readData from "../ApiCalls/readData";
-import readRequestedMovies from "../ApiCalls/readRequestedMovies";
+
+import PageHeader from "../components/MovieDetail/PageHeader";
 const MovieDetailPage = (props) => {
   const dispatch = useDispatch();
-  const params = useParams();
-  const { movieDetail, downloadDetail } = useLoaderData();
+
+  const { movieDetail } = useLoaderData();
 
   useEffect(() => {
     return () => {
@@ -24,7 +23,6 @@ const MovieDetailPage = (props) => {
   return (
     <Card className="py-4">
       <PageHeader />
-
       <Suspense fallback={<MovieDetailSkeleton />}>
         <Await
           resolve={movieDetail}
@@ -35,9 +33,7 @@ const MovieDetailPage = (props) => {
             />
           }
         >
-          {(loadedDetails) => (
-            <MovieDetail data={loadedDetails} downloadDetail={downloadDetail} />
-          )}
+          {(loadedDetails) => <MovieDetail data={loadedDetails} />}
         </Await>
       </Suspense>
     </Card>
@@ -65,8 +61,8 @@ const movieDetailLoader = async (id) => {
 };
 export const loader = async ({ params }) => {
   const id = params.movieId;
+
   return defer({
     movieDetail: movieDetailLoader(id),
-    downloadDetail: readData(`movies/${id}`),
   });
 };
