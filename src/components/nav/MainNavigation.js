@@ -17,6 +17,7 @@ import readNotifications from "../../ApiCalls/readNotifications";
 import { useSelector } from "react-redux";
 import convertIp from "../../Utility/convertIp";
 import bellRedDot from "../../svg/bellRedDot";
+import downloadIcon from "../../svg/downloadIcon";
 const MainNavigation = (props) => {
   const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
@@ -66,7 +67,15 @@ const MainNavigation = (props) => {
           <SVG svg={Brand} className="w-24 md:w-36" />
         </Link>
         <SearchBar />
-        <span className="flex items-center space-x-4 md:flex-none">
+        <span className="flex items-center space-x-2 xsl:space-x-3 md:space-x-4 md:flex-none">
+          <NavLink
+            to="/download_process"
+            className={({ isActive }) =>
+              isActive ? "fill-white" : "fill-Gray-200"
+            }
+          >
+            <SVG svg={downloadIcon} className="w-7 h-7" />
+          </NavLink>
           {showNotification ? (
             <SVG
               svg={bellActive}

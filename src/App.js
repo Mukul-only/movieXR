@@ -59,7 +59,7 @@ const router = createBrowserRouter([
         loader: requestedMoviesLoader,
       },
       {
-        path: "download_process",
+        path: "/download_process",
         element: <DownloadProcessPage />,
       },
       {
