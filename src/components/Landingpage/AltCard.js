@@ -15,7 +15,7 @@ const AltCard = ({ data, className }) => {
   const [searchParams] = useSearchParams();
   const imageUrl = `https://image.tmdb.org/t/p/w500/${data?.poster_path}`;
   const rating = data?.vote_average?.toFixed(1);
-  const maxChar = window.innerWidth < 768 ? 32 : 38;
+  const maxChar = window.innerWidth < 768 ? 32 : 44;
 
   const title =
     data?.title?.length > maxChar
