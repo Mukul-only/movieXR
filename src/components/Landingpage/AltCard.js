@@ -9,12 +9,14 @@ import { useDispatch } from "react-redux";
 import { navigationAction } from "../../store/Navigation-slice";
 import readData from "../../ApiCalls/readData";
 import LoadingCard from "../../UI/LoadingCard";
+import Delete from "../../svg/Delete";
 const AltCard = ({ data, className }) => {
   const [imageHasError, setImageHasError] = useState(false);
   const [searchParams] = useSearchParams();
   const imageUrl = `https://image.tmdb.org/t/p/w500/${data?.poster_path}`;
   const rating = data?.vote_average?.toFixed(1);
-  const maxChar = window.innerWidth < 768 ? 32 : 46;
+  const maxChar = window.innerWidth < 768 ? 32 : 38;
+
   const title =
     data?.title?.length > maxChar
       ? data?.title?.slice(0, maxChar) + "..."
@@ -83,14 +85,15 @@ const AltCard = ({ data, className }) => {
             )}
           </div>
           <div>
-            <div className="flex items-center justify-between px-2 py-4 space-x-4">
-              <span className="space-y-1">
+            <div className="flex items-center justify-between px-2 py-4 space-x-3">
+              <span className="space-y-1 ">
                 <p className=" tracking-tight font-medium md:font-[600] text-base  md:text-base leading-tight">
                   {title}
                 </p>
                 <p className="text-sm md:text-base">{year}</p>
               </span>
             </div>
+
             <span className="block w-full h-[0.4rem] bg-primary" />
           </div>
         </div>
