@@ -4,6 +4,7 @@ import Select from "../../UI/Select";
 import urlRegx from "../../Utility/urlRegx";
 import SVG from "../../svg/SVG";
 import Delete from "../../svg/Delete";
+import Checkbox from "../../UI/Checkbox";
 
 const Form = (props) => {
   const sizeRegx = /^\d{1,3}(?:\.\d)?(?:KB|GB|MB|mb|kb|gb)$/;
@@ -47,13 +48,13 @@ const Form = (props) => {
 
   return (
     <div className={twMerge("py-6 space-y-4", props.className)}>
-      <span className="flex  space-x-4 items-center ">
-        <h1 className="text-White text-base lg:text-lg">
+      <span className="flex items-center space-x-4 ">
+        <h1 className="text-base text-White lg:text-lg">
           Link #{props.index + 1}
         </h1>
         <SVG
           svg={Delete}
-          className="w-5 h-5 lg:w-6 lg:h-6 fill-gray-400 hover:fill-white cursor-pointer"
+          className="w-5 h-5 cursor-pointer lg:w-6 lg:h-6 fill-gray-400 hover:fill-white"
           onClick={() => props.onDelete(props.index)}
         />
       </span>
@@ -98,7 +99,16 @@ const Form = (props) => {
       <div className="flex space-x-2 ">
         <Select
           className="basis-1/2 md:basis-1/3"
-          options={["Hindi", "Hin-Eng", "Eng"]}
+          options={[
+            "Hindi",
+            "Hin-Eng",
+            "Eng",
+            "Tamil",
+            "Telegu",
+            "Marathi",
+            "Punjabi",
+            "Bengali",
+          ]}
           placeholder="Language"
           id={props.index}
           name="language"
@@ -120,6 +130,11 @@ const Form = (props) => {
         validation={(val) => urlValidation(val)}
         className="w-full"
         val={props?.data?.download_link}
+      />
+      <Checkbox
+        id={props.index}
+        name="isTorrent"
+        val={props?.data?.isTorrent}
       />
     </div>
   );

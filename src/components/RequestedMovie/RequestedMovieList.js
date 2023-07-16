@@ -5,13 +5,19 @@ const RequestedMovieList = ({ data }) => {
   const accessKey = localStorage.getItem("access");
   const access = accessKey ? authenticator(accessKey) : false;
   // const totalResults = data ? Object?.keys(data).length : 0;
+
   const dataArr = data ? Object?.values(data) : [];
+  const sortedArr = dataArr.sort((a, b) => {
+    if (+a.time < +b.time) return 1;
+    if (+a.time > +b.time) return -1;
+  });
+
   const { ip } = useSelector((state) => state.ip);
   let requestList = [];
   if (access) {
-    requestList = dataArr;
+    requestList = sortedArr;
   } else {
-    requestList = dataArr.filter((item) => item?.ips?.has(ip));
+    requestList = sortedArr.filter((item) => item?.ips?.has(ip));
   }
 
   return (

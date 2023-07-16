@@ -2,6 +2,7 @@ import { twMerge } from "tailwind-merge";
 import SVG from "../../svg/SVG";
 import Download from "../../svg/Download";
 import Trim from "../../Utility/Trim";
+import magnet from "../../svg/magnet";
 const DownloadButton = ({ data, className }) => {
   const downloadLink = data?.download_link;
   const releaseType = data?.release_type;
@@ -12,6 +13,7 @@ const DownloadButton = ({ data, className }) => {
     `${releaseType}, ${language}`,
     window.innerWidth < 768 ? 14 : 22
   );
+
   return (
     <a
       href={downloadLink}
@@ -21,8 +23,12 @@ const DownloadButton = ({ data, className }) => {
         className
       )}
     >
-      <span className="flex space-x-1 items-center">
-        <SVG svg={Download} className="w-7 h-7" />
+      <span className="flex items-center space-x-1">
+        {data?.isTorrent ? (
+          <SVG svg={magnet} className="w-7 h-7" />
+        ) : (
+          <SVG svg={Download} className="w-7 h-7" />
+        )}
         <span>
           <h1 className="font-bold">{resolution}</h1>
 

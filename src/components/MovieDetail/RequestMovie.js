@@ -36,19 +36,24 @@ const RequestMovie = ({ data }) => {
     setShow(e);
   };
 
-  const writeDataHandler = async () => {
+  const writeDataHandler = () => {
+    const time = new Date().getTime();
+
     if (reqData === "null") {
+      //if requested movie does not exists
       const ipMap = new Map();
       ipMap.set(ip, true);
 
-      const newData = { ...data, ips: ipMap, count: 1 };
+      const newData = { ...data, ips: ipMap, count: 1, time: time };
+
       writeRequestedMovies(data.id, JSON.stringify(newData, replacer));
     } else if (ipMatched === "not-matched") {
+      //if requested movie exists
       const cnt = reqData?.count + 1;
       const ipMap = reqData.ips.set(ip, true);
 
-      const newData = { ...reqData, ips: ipMap, count: cnt };
-      // console.log(newData);
+      const newData = { ...reqData, ips: ipMap, count: cnt, time: time };
+
       writeRequestedMovies(data.id, JSON.stringify(newData, replacer));
     }
   };
