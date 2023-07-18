@@ -12,12 +12,12 @@ const RequestedMovieList = ({ data }) => {
     if (+a.time > +b.time) return -1;
   });
 
-  const { ip } = useSelector((state) => state.ip);
+  const { userId } = useSelector((state) => state.userId);
   let requestList = [];
   if (access) {
     requestList = sortedArr;
   } else {
-    requestList = sortedArr.filter((item) => item?.ips?.has(ip));
+    requestList = sortedArr.filter((item) => item?.userIds?.has(userId));
   }
 
   return (
