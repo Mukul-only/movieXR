@@ -1,6 +1,6 @@
-const readNotifications = async (ip) => {
+const readNotifications = async (userId) => {
   try {
-    const url = `https://moviesxr-3dcab-default-rtdb.firebaseio.com/notifications/${ip}.json`;
+    const url = `https://moviesxr-3dcab-default-rtdb.firebaseio.com/notifications/${userId}.json`;
     const options = {
       method: "GET",
     };

@@ -8,9 +8,9 @@ const afterEdit = async (movieId) => {
 
   if (res && res !== "null") {
     const resData = JSON.parse(res, reviver);
-    resData.ips.forEach((value, key) => {
-      const ip = convertIp(key);
-      writeNotification(ip, movieId, res);
+    resData.userIds.forEach((value, key) => {
+      // const ip = convertIp(key);
+      writeNotification(key, movieId, res);
     });
     removeReqMovies(movieId);
   }

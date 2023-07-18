@@ -9,8 +9,9 @@ import replacer from "../../Utility/replacer";
 import reviver from "../../Utility/reviver";
 const RequestMovie = ({ data }) => {
   const { ip } = useSelector((state) => state.ip);
+  const { userId } = useSelector((state) => state.userId);
   const [show, setShow] = useState(false);
-  const [ipMatched, setIpMatched] = useState("");
+  const [userMatched, setUserMatched] = useState("");
   const [reqData, setReqData] = useState();
   useEffect(() => {
     readRequestedMovies(data.id).then((e) => {
@@ -24,7 +25,7 @@ const RequestMovie = ({ data }) => {
 
   useEffect(() => {
     if (reqData && reqData !== "null" && ip !== "") {
-      setIpMatched(reqData?.ips?.has(ip) ? "matched" : "not-matched");
+      setUserMatched(reqData?.userIds?.has(userId) ? "matched" : "not-matched");
     }
   }, [reqData, ip]);
 
@@ -41,28 +42,33 @@ const RequestMovie = ({ data }) => {
 
     if (reqData === "null") {
       //if requested movie does not exists
-      const ipMap = new Map();
-      ipMap.set(ip, true);
+      const userIdMap = new Map();
+      userIdMap.set(userId, ip);
 
-      const newData = { ...data, ips: ipMap, count: 1, time: time };
+      const newData = { ...data, userIds: userIdMap, count: 1, time: time };
 
       writeRequestedMovies(data.id, JSON.stringify(newData, replacer));
-    } else if (ipMatched === "not-matched") {
+    } else if (userMatched === "not-matched") {
       //if requested movie exists
       const cnt = reqData?.count + 1;
-      const ipMap = reqData.ips.set(ip, true);
+      const userIdMap = reqData?.userIds.set(userId, ip);
 
-      const newData = { ...reqData, ips: ipMap, count: cnt, time: time };
+      const newData = {
+        ...reqData,
+        userIds: userIdMap,
+        count: cnt,
+        time: time,
+      };
 
       writeRequestedMovies(data.id, JSON.stringify(newData, replacer));
     }
   };
   return (
     <>
-      {(reqData === undefined || ipMatched === "") && reqData !== "null" ? (
+      {(reqData === undefined || userMatched === "") && reqData !== "null" ? (
         <span className="h-12 mt-6 rounded-lg loading-text w-52 md:w-64" />
-      ) : (ipMatched === "not-matched" || reqData === "null") &&
-        ipMatched !== "matched" ? (
+      ) : (userMatched === "not-matched" || reqData === "null") &&
+        userMatched !== "matched" ? (
         <>
           <button
             className="flex items-center px-4 py-2 mt-8 space-x-2 font-medium duration-200 rounded-lg text-White bg-primary hover:bg-primary-500"
@@ -77,7 +83,7 @@ const RequestMovie = ({ data }) => {
           <RequestOverlay
             show={show}
             onClick={showHandler}
-            setIpMatched={setIpMatched}
+            setUserMatched={setUserMatched}
           />
         </>
       ) : (

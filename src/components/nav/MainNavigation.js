@@ -27,22 +27,22 @@ const MainNavigation = (props) => {
   const page = searchParams.get("page");
   const query = searchParams.get("query");
   const [notificationData, setNotificationData] = useState();
-  const { ip } = useSelector((state) => state.ip);
+  const { userId } = useSelector((state) => state.userId);
   const [loading, setLoading] = useState(false);
   const [flag, setFlag] = useState(false);
 
   useEffect(() => {
-    if (ip) {
+    if (userId) {
       const readNotificationData = async () => {
-        const newIp = convertIp(ip);
+        // const newIp = convertIp(ip);
         setLoading(true);
-        const res = await readNotifications(newIp);
+        const res = await readNotifications(userId);
         setNotificationData(res);
         setLoading(false);
       };
       readNotificationData();
     }
-  }, [ip, flag]);
+  }, [userId, flag]);
 
   const clickHandler = () => {
     if (location.pathname !== "/requested") {

@@ -2,18 +2,17 @@ import { Link } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
 import NotificationSkeleton from "./NotificationSkeleton";
 import { useSelector } from "react-redux";
-import convertIp from "../../Utility/convertIp";
+
 import removeNotification from "../../ApiCalls/removeNotification";
 const NotificationItem = ({ data, setFlag, setShowNotification }) => {
   const imageUrl = `https://image.tmdb.org/t/p/w500/${data?.poster_path}`;
   const title =
     data?.title?.length >= 22 ? data?.title?.slice(0, 21) + "..." : data?.title;
   const id = data?.id;
-  const { ip } = useSelector((state) => state.ip);
+  const { userId } = useSelector((state) => state.userId);
   const removeNotificationHandler = () => {
-    if (ip) {
-      const newIp = convertIp(ip);
-      removeNotification(newIp, id).then((e) => {
+    if (userId) {
+      removeNotification(userId, id).then((e) => {
         setFlag((prev) => !prev);
       });
       setShowNotification(false);

@@ -2,7 +2,7 @@ import ReactDOM from "react-dom";
 import { CSSTransition } from "react-transition-group";
 import SVG from "../../svg/SVG";
 import RequestSvg from "../../svg/RequestSvg";
-import { useEffect, useState } from "react";
+
 const Modal = (props) => {
   return (
     <CSSTransition
@@ -33,7 +33,7 @@ const Modal = (props) => {
             onClick={() => {
               props.onClick(false);
               setTimeout(() => {
-                props.setIpMatched("matched");
+                props.setUserMatched("matched");
               }, 500);
             }}
           >
@@ -51,7 +51,7 @@ const RequestOverlay = (props) => {
     <Modal
       show={props.show}
       onClick={props.onClick}
-      setIpMatched={props.setIpMatched}
+      setUserMatched={props.setUserMatched}
     />,
     overlay
   );

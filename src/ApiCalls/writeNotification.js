@@ -1,6 +1,6 @@
-const writeNotification = async (ip, movieId, data) => {
+const writeNotification = async (userId, movieId, data) => {
   try {
-    const url = `https://moviesxr-3dcab-default-rtdb.firebaseio.com/notifications/${ip}/${movieId}.json`;
+    const url = `https://moviesxr-3dcab-default-rtdb.firebaseio.com/notifications/${userId}/${movieId}.json`;
     const options = {
       method: "PUT",
       headers: {

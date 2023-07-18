@@ -16,6 +16,8 @@ import { ipSliceAction } from "./store/ip-slice";
 import TermsPage from "./pages/TermsPage";
 import PrivacyPage from "./pages/PrivacyPage";
 import DownloadProcessPage from "./pages/DownloadProcessPage";
+import { userIdSliceAction } from "./store/userId-slice";
+import getUserId from "./auth/getUserId";
 
 // import { lazy, Suspense } from "react";
 // import MovieDetailSkeleton from "./components/MovieDetail/MovieDetailSkeleton";
@@ -77,6 +79,8 @@ const router = createBrowserRouter([
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
+    dispatch(userIdSliceAction.setUserId(getUserId()));
+
     const getIp = async () => {
       try {
         const res = await fetch("https://api.ipify.org/?format=json");
