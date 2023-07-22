@@ -19,7 +19,7 @@ import FormError from "./FormError";
 
 export const authenticator = (text) => {
   const decryptedData = decryptData(text);
-  if (decryptedData === "{f4OY0-6Fq$B'lP2SHs6V8Q_") {
+  if (decryptedData === ",~Sj[3CXDW%8ge1^=") {
     return true;
   } else return false;
 };

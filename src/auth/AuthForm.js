@@ -54,7 +54,7 @@ const AuthForm = (props) => {
   //   console.log(encryptData(input));
   // };
   return (
-    <div className="flex flex-col py-12  space-y-4 px-4 lg:px-24 ">
+    <div className="flex flex-col px-4 py-12 space-y-4 lg:px-24 ">
       <span>
         <input
           type="text"
